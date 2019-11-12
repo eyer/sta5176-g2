@@ -1,6 +1,6 @@
 ---
 title: "Project"
-output: html_document
+output: html_documen
 ---
 
 ```{r setup, include=FALSE}
