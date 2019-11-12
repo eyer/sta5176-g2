@@ -5,8 +5,8 @@ output: html_document
 
 ``` {r}
 # Import raw data from source
-wq.red <- read.csv("~/sta5176-g2/winequality-red.csv", sep=";")
-wq.white <- read.csv("~/sta5176-g2/winequality-white.csv", sep=";")
+wq.red <- read.csv("winequality-red.csv", sep=";")
+wq.white <- read.csv("winequality-white.csv", sep=";")
 ```
 
 ``` {r}
