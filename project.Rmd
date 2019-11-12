@@ -3,6 +3,11 @@ title: "Project"
 output: html_document
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
 ``` {r}
 # Import raw data from source
 wq.red <- read.csv("~/sta5176-g2/winequality-red.csv", sep=";")
@@ -18,3 +23,11 @@ summary(wq.red)
 # Summarize data
 summary(wq.white)
 ```
+
+```{r}
+white.summary <- wq.white %>% summarise(mean.citric.acid = mean(citric.acid), sd.citric.acid = sd(citric.acid), median.citric.acid = median(citric.acid))
+white.summary
+```
+
+The mean (standard deviation) citric acid content is `r round(white.summary$mean.citric.acid[1], digits = 2)` (`r round(white.summary$sd.citric.acid[1], digits = 2)`) <br>
+The median citric acid content is `r round(white.summary$median.citric.acid[1], digits = 2)`.
