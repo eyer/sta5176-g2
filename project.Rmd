@@ -21,9 +21,11 @@ f_pvalue = function(p.value, symbol = "="){
 # Import raw data from source
 wq.red <- read.csv("winequality-red.csv", sep=";")
 wq.white <- read.csv("winequality-white.csv", sep=";")
-# add comment
 
+category <- c(rep("red", nrow(wq.red)), rep("white", nrow(wq.white))) # create new column to show wine category
 
+wq <- rbind(wq.red, wq.white) # concatenate red and white datasets
+wq <- cbind(category, wq) # add category column
 ```
 
 ## Testing data summarization
