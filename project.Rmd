@@ -21,6 +21,9 @@ f_pvalue = function(p.value, symbol = "="){
 # Import raw data from source
 wq.red <- read.csv("winequality-red.csv", sep=";")
 wq.white <- read.csv("winequality-white.csv", sep=";")
+# add comment
+
+
 ```
 
 ## Testing data summarization
