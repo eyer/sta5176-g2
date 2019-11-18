@@ -3,6 +3,8 @@ title: "Project"
 output: html_document
 ---
 
+# Chad and Tyler's initial work
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
@@ -61,3 +63,410 @@ Reject $H_0$ if $p < \alpha$, where $\alpha=0.05$. $`r f_pvalue(pHvar.f$p.value)
 #### Conclusion and interpretation
 
 Fail to reject $H_0$. There is insufficient evidence to suggest that there is a difference in the variability of pH between red and white wines.
+
+# Jovan's initial work
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+#library(car)
+#library(pander)
+#library(agricolae)
+#library(DescTools)
+library(stats)
+library(BSDA)
+#library(pgirmess)
+#library(multcomp)
+
+### p.value.string v2
+# Update v2: added the formatting that turns of scientific notation
+# fixes the case when p = 0.0001 (instead of p=1e-4)
+# This function called p.value.string creates a string
+# to be used when reporting the p-value. It includes the p on the LHS.
+# You will likely place it in $$ to get the LaTeX math formatting.
+# This should be placed in an r code chunk in the beginning of your R markdown
+# This code chunk by itself shouldn't produce any result.
+
+
+p.value.string = function(p.value){
+  p.value <- round(p.value, digits=4)
+  if (p.value == 0) {
+    return("p < 0.0001")
+  } else {
+    return(paste0("p = ", format(p.value, scientific = F)))
+  }
+}
+
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+f_pvalue = function(p.value, symbol = "="){
+  p.value <- round(p.value, digits = 3)
+  if (p.value == 0) {
+    return("p < .001")
+  } else {
+    return(paste0("p", symbol, round(p.value, digits = 3)))
+  }
+}
+
+```
+
+
+
+```{r}
+redwine <- read.csv("winequality-red.csv", sep=";")
+whitewine <- read.csv("winequality-white.csv", sep=";")
+wine <- rbind(redwine, whitewine)
+type <- as.factor(c(rep("Red Wine", nrow(redwine)), rep("White Wine", nrow(whitewine))))
+wine <- cbind(wine, type)
+```
+
+
+## 1. One Way Anova Test on the contain of Sulfure Dioxide
+
+```{r}
+wine.Summary <-  wine %>% group_by(type) %>% summarise(mean_alcohol = mean(total.sulfur.dioxide), stdev_alcohol = sd(total.sulfur.dioxide))
+wine.Summary
+```
+
+```{r}
+wine_anova_results <- aov(total.sulfur.dioxide ~ type, data = wine)
+wine_anova_table <- summary(wine_anova_results)
+wine_anova_table
+#pander(wine_anova_table, style='rmarkdown') 
+```
+
+#### Hypothesis test
+
+**Hypotheses**
+
+$H_0: \ \mu_1 = \mu_2$ <br> 
+$H_1: \ \mu_1 \ne \mu_2$
+
+**Test Statistic**
+
+$F_0 = `r p.value.string(wine_anova_table[[1]][["F value"]][1])`$.
+
+***p*-value**
+
+$`r p.value.string(wine_anova_table[[1]][["Pr(>F)"]][1])`$.
+
+**Rejection Region**
+
+Reject if $p < \alpha$, where $\alpha=0.05$.
+
+**Conclusion and Interpretation**
+
+Reject $H_0$. There is sufficient evidence to suggest that the total sulfure dioxide contain in the two wine are diferents.
+
+
+## 2. Kruskal-Wallis Test on the contain of Alcohol
+
+```{r}
+wine.Summary2 <-  wine %>% group_by(type) %>% summarise(alcohol_median = median(alcohol), alcohol_IQR = IQR(alcohol))
+wine.Summary2
+```
+
+```{r}
+wine_KW_results <- kruskal.test(alcohol ~ type, data = wine)
+wine_KW_results
+```
+
+**Hypotheses**
+
+$H_0: \ \mbox{M}_1 = \mbox{M}_2$ <br> 
+$H_1: \ \mbox{M}_1 \ne \mbox{M}_2$ 
+
+**Test Statistic**
+
+$H = `r round(wine_KW_results$statistic,digits=2)`$.
+
+***p*-value**
+
+$`r p.value.string(wine_KW_results$p.value)`$.
+
+**Rejection Region**
+
+Reject if $p < \alpha$, where $\alpha=0.05$.
+
+**Conclusion and Interpretation**
+
+Fail to reject $H_0$. There is not sufficient evidence to suggest that there is a diferent in the alcohol contain of the two type of wines.
+
+
+## 3. Test of variability pH
+
+```{r}
+pHvar <- var.test(redwine$pH, whitewine$pH, alternative = "t", conf.level = 0.95, ratio = 1)
+pHvar 
+```
+
+**Hypotheses**
+
+* $H_0: \sigma_r = \sigma_w$
+* $H_1: \sigma_r \ne \sigma_w$
+
+**Test Statistic**
+
+* $F_0 = `r round(pHvar$statistic, digits = 2)`$.
+* $`r f_pvalue(pHvar$p.value)`$.
+
+**Rejection Region**
+
+Reject $H_0$ if $p < \alpha$, where $\alpha=0.05$. $`r f_pvalue(pHvar$p.value)` \nless 0.05.$
+
+**Conclusion and Interpretation**
+
+Fail to reject $H_0$. There is insufficient evidence to suggest that there is a difference in the variability of pH between red and white wines.
+
+
+## 4. Test of contain of Chlorides
+
+Formally test to determine if the mean of the chlorides contain on red wine is greater than that of white wine. Use the appropriate version of the t-test with the critical at the α = 0.05 level.
+
+```{r}
+wine.Summary <-  wine %>% group_by(type) %>% summarise(mean_alcohol = mean(chlorides), stdev_alcohol = sd(chlorides))
+wine.Summary
+```
+
+```{r}
+chlorides_t <- t.test(redwine$chlorides, whitewine$chlorides, paired = FALSE, alternative = "greater")
+chlorides_t
+chlorides_p <- p.value.string(chlorides_t$p.value)
+```
+
+**Hypotheses**
+
+$H_0: \ \mu_R \le \mu_W$ <br> 
+$H_1: \ \mu_R > \mu_w$
+
+**Test Statistic**
+
+$t_0 = `r round(chlorides_t$statistic, digits=3)`$.
+
+***p*-value**
+
+$`r chlorides_p`$.
+
+**Rejection Region**
+
+Reject if $p < \alpha$, where $\alpha=0.01$.
+
+**Conclusion and Interpretation**
+
+Reject $H_0$. There is sufficient evidence to suggest that the contain chlorides in the red wine are greather than the white wine.
+
+
+## 5. Test of variability of residual sugar 
+
+```{r}
+rsvar <- var.test(redwine$residual.sugar, whitewine$residual.sugar, alternative = "t", conf.level = 0.95, ratio = 1)
+rsvar
+```
+
+**Hypotheses**
+
+* $H_0: \sigma_r = \sigma_w$
+* $H_1: \sigma_r \ne \sigma_w$
+
+**Test Statistic**
+
+* $F_0 = `r round(rsvar$statistic, digits = 2)`$.
+* $`r f_pvalue(rsvar$p.value)`$.
+
+**Rejection Region**
+
+Reject $H_0$ if $p < \alpha$, where $\alpha=0.05$. $`r f_pvalue(rsvar$p.value)` < 0.05.$
+
+**Conclusion and Interpretation**
+
+Reject $H_0$. There is sufficient evidence to suggest that there is a difference in the variability of residual sugar contain between red and white wines.
+
+
+## 6. Test of contain of Citrid Acid
+
+Formally test to determine if the mean of the citrid acid contain on red wine is less than that of white wine. Use the appropriate version of the t-test with the critical at the α = 0.05 level.
+
+```{r}
+wine.Summary3 <-  wine %>% group_by(type) %>% summarise(mean_alcohol = mean(citric.acid), stdev_alcohol = sd(citric.acid))
+wine.Summary3
+```
+
+```{r}
+citricacid_t <- t.test(redwine$citric.acid, whitewine$citric.acid, paired = FALSE, alternative = "less")
+citricacid_t
+citricacid_p <- p.value.string(chlorides_t$p.value)
+```
+
+**Hypotheses**
+
+$H_0: \ \mu_R \ge \mu_W$ <br> 
+$H_1: \ \mu_R < \mu_w$
+
+**Test Statistic**
+
+$t_0 = `r round(citricacid_t$statistic, digits=3)`$.
+
+***p*-value**
+
+$`r citricacid_p`$.
+
+**Rejection Region**
+
+Reject if $p < \alpha$, where $\alpha=0.01$.
+
+**Conclusion and Interpretation**
+
+Reject $H_0$. There is sufficient evidence to suggest that the contain of citric acid in the red wine is less than the white wine.
+
+
+## 7. Proportion Test on Density??? 
+
+```{r}
+wine_density1 <- z.test(wine$density, alternative = "greater", mu = 1, sigma.x = sd(wine$density))
+wine_density1
+```
+
+**Hypotheses**
+
+$H_0: \ \mu \le 1$ <br>
+$H_1: \ \mu > 1$
+
+**Test Statistic**
+
+$z = `r wine_density1$statistic`$.
+
+***p*-value**
+
+$p = `r wine_density1$p.value`$.
+
+**Rejection Region**
+
+Reject if $p < \alpha$, where $\alpha=0.05$.
+
+**Conclusion and Interpretation**
+
+Fail to reject $H_0$. There is not sufficient evidence to suggest that the mean density wine is greater than 1.
+
+```{r}
+wine_density2 <- z.test(wine$density, alternative = "less", mu = 0.98, sigma.x = sd(wine$density))
+wine_density2
+```
+
+**Hypotheses**
+
+$H_0: \ \mu \ge 0.98$ <br>
+$H_1: \ \mu > 0.98$
+
+**Test Statistic**
+
+$z = `r wine_density2$statistic`$.
+
+***p*-value**
+
+$p = `r wine_density2$p.value`$.
+
+**Rejection Region**
+
+Reject if $p < \alpha$, where $\alpha=0.05$.
+
+**Conclusion and Interpretation**
+
+Fail to reject $H_0$. There is not sufficient evidence to suggest that the mean density wine is less than 0.98.
+
+```{r}
+wine_density3 <- z.test(wine$density, alternative = "less", mu = 0.99, sigma.x = sd(wine$density))
+wine_density3
+```
+
+**Hypotheses**
+
+$H_0: \ \mu \ge 0.99$ <br>
+$H_1: \ \mu > 0.99$
+
+**Test Statistic**
+
+$z = `r wine_density3$statistic`$.
+
+***p*-value**
+
+$p = `r wine_density3$p.value`$.
+
+**Rejection Region**
+
+Reject if $p < \alpha$, where $\alpha=0.05$.
+
+**Conclusion and Interpretation**
+
+Fail to reject $H_0$. There is not sufficient evidence to suggest that the mean density wine is less than 0.99.
+
+
+## 8. Regression model
+
+```{r}
+one_model <- lm(quality ~ fixed.acidity + volatile.acidity + citric.acid + residual.sugar + chlorides + total.sulfur.dioxide + density + pH + sulphates + alcohol, data=wine)
+one_coef <- coefficients(one_model)
+one_anova <- anova(one_model)
+one_summary <- summary(one_model)
+one_t <- as_tibble(one_summary[[4]])
+one_ci <- as_tibble(confint(one_model, level=0.95))
+```
+
+The resulting regression model is 
+\[ \hat{y} = `r one_coef[[1]]` + `r one_coef[[2]]`x_1 + `r one_coef[[3]]`x_2 + `r one_coef[[4]]`x_3 + `r one_coef[[5]]`x_4 + `r one_coef[[6]]`x_5 + `r one_coef[[7]]`x_6 + `r one_coef[[8]]`x_7 + `r one_coef[[9]]`x_8 + `r one_coef[[10]]`x_9\]
+
+### ANOVA table and testing for significance of regression line
+
+The corresponding ANOVA table is as follows
+
+```{r}
+one_anova
+```
+
+**Hypotheses**
+
+$H_0: \ \beta_1 = 0$ <br>
+$H_1: \ \beta_1 \ne 0$
+
+**Test Statistic**
+
+$F_0 = `r round(one_anova$"F value"[1], digits=2)`$.
+
+***p*-value**
+
+$`r p.value.string(one_anova$"Pr(>F)"[3])`$.
+
+**Rejection Region**
+
+Reject if $p < \alpha$, where $\alpha=0.05$.
+
+**Conclusion and Interpretation**
+
+Comparing every p value of the previous table with the alpha, can be check that with at lest one of then is greather than alpha, by this reason fail to reject $H_0$. There is not sufficient evidence to suggest that the regression line is significant.
+
+### Testing for significance of individual predictor
+
+```{r}
+one_t
+```
+
+**Hypotheses**
+
+$H_0: \ \beta_1 = 0$ <br>
+$H_1: \ \beta_1 \ne 0$
+
+**Test Statistic**
+
+$t_0 = `r round(one_t$"t value"[2], digits=2)`$.
+
+***p*-value**
+
+$`r p.value.string(one_t$"Pr(>|t|)"[4])`$.
+
+**Rejection Region**
+
+Reject if $p < \alpha$, where $\alpha=0.05$.
+
+**Conclusion and Interpretation**
+
+Comparing every p value of the previous table with the alpha, can be check that with at lest one of then is greather than alpha, by this reason fail to reject $H_0$. There is not sufficient evidence to suggest that the regression line is significant.
+
