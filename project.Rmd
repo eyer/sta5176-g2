@@ -24,15 +24,6 @@ library(tidyverse)
 library(stats)
 library(BSDA)
 
-#### p.value.string v2
-# Update v2: added the formatting that turns of scientific notation
-# fixes the case when p = 0.0001 (instead of p=1e-4)
-# This function called p.value.string creates a string
-# to be used when reporting the p-value. It includes the p on the LHS.
-# You will likely place it in $$ to get the LaTeX math formatting.
-# This should be placed in an r code chunk in the beginning of your R markdown
-# This code chunk by itself shouldn't produce any result.
-
 p.value.string = function(p.value, symbol = "="){
   p.value <- round(p.value, digits = 3)
   if (p.value == 0) {
@@ -42,9 +33,6 @@ p.value.string = function(p.value, symbol = "="){
   }
 }
 
-```
-
-``` {r import, include=FALSE}
 #### Import raw data from source
 wine_red <- read.csv("winequality-red.csv", sep=";")
 wine_white <- read.csv("winequality-white.csv", sep=";")
