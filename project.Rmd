@@ -2,7 +2,7 @@
 title: "Project: Wine Quality"
 author: 
 - "Jovan Burgos"
-- "Adrinne Eddy"
+- "Adrienne Eddy"
 - "Chad Michael Eyer"
 - "Valorie Myer"
 - "Tyler Watson"
