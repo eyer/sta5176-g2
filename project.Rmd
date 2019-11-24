@@ -3,21 +3,13 @@ title: "Project"
 output: html_document
 ---
 
-# Chad and Tyler's initial work
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-#library(car)
-#library(pander)
-#library(agricolae)
-#library(DescTools)
 library(stats)
 library(BSDA)
-#library(pgirmess)
-#library(multcomp)
 
-### p.value.string v2
+#### p.value.string v2
 # Update v2: added the formatting that turns of scientific notation
 # fixes the case when p = 0.0001 (instead of p=1e-4)
 # This function called p.value.string creates a string
@@ -25,7 +17,6 @@ library(BSDA)
 # You will likely place it in $$ to get the LaTeX math formatting.
 # This should be placed in an r code chunk in the beginning of your R markdown
 # This code chunk by itself shouldn't produce any result.
-
 
 p.value.string = function(p.value){
   p.value <- round(p.value, digits=4)
@@ -36,7 +27,6 @@ p.value.string = function(p.value){
   }
 }
 
-
 f_pvalue = function(p.value, symbol = "="){
   p.value <- round(p.value, digits = 3)
   if (p.value == 0) {
@@ -45,13 +35,10 @@ f_pvalue = function(p.value, symbol = "="){
     return(paste0("p", symbol, round(p.value, digits = 3)))
   }
 }
-
-
-
 ```
 
-``` {r}
-# Import raw data from source
+``` {r import, include=FALSE}
+#### Import raw data from source
 wq.red <- read.csv("winequality-red.csv", sep=";")
 wq.white <- read.csv("winequality-white.csv", sep=";")
 
@@ -61,7 +48,33 @@ wq <- rbind(wq.red, wq.white) # concatenate red and white datasets
 wq <- cbind(category, wq) # add category column
 ```
 
-## Testing data summarization
+## Introduction
+
+briefly give meaning to your project – what is the background and why is this projectimportant?  (20 points)
+
+## Hypotheses
+
+clearly state the hypotheses being tested.  (20 points)
+
+## Methods
+
+state and explain the methodology used to test the hypotheses.  (20 points)
+
+## Results
+
+describe the data (1st paragraph) as well as analysis results (order of results should correspondto hypotheses listed).  (20 points)
+
+## Conclusion
+
+restate the results in terms of the larger picture; state limitations and opportunities forfuture research (20 points)
+
+## References
+
+## Work
+
+### Chad and Tyler's initial work
+
+#### Testing data summarization
 
 ```{r}
 white.summary <- wq.white %>% summarise(mean.citric.acid = mean(citric.acid), sd.citric.acid = sd(citric.acid), median.citric.acid = median(citric.acid))
@@ -71,14 +84,14 @@ white.summary
 The mean (standard deviation) citric acid content is `r round(white.summary$mean.citric.acid[1], digits = 2)` (`r round(white.summary$sd.citric.acid[1], digits = 2)`) <br>
 The median citric acid content is `r round(white.summary$median.citric.acid[1], digits = 2)`.
 
-## Test of variability pH
+#### Test of variability pH
 
-#### Hypotheses
+##### Hypotheses
 
 * $H_0: \sigma_r = \sigma_w$
 * $H_1: \sigma_r \ne \sigma_w$
 
-#### Test statistic
+##### Test statistic
 
 ```{r, warning=FALSE}
 pHvar.f <- var.test(wq.red$pH, wq.white$pH, alternative = "t", conf.level = 0.95, ratio = 1)
@@ -87,19 +100,15 @@ pHvar.f <- var.test(wq.red$pH, wq.white$pH, alternative = "t", conf.level = 0.95
 * $F_0 = `r round(pHvar.f$statistic, digits = 2)`$.
 * $`r f_pvalue(pHvar.f$p.value)`$.
 
-#### Rejection region
+##### Rejection region
 
 Reject $H_0$ if $p < \alpha$, where $\alpha=0.05$. $`r f_pvalue(pHvar.f$p.value)` \nless 0.05.$
 
-#### Conclusion and interpretation
+##### Conclusion and interpretation
 
 Fail to reject $H_0$. There is insufficient evidence to suggest that there is a difference in the variability of pH between red and white wines.
 
-# Jovan's initial work
-
-
-
-
+### Jovan's initial work
 
 ```{r}
 redwine <- read.csv("winequality-red.csv", sep=";")
@@ -109,8 +118,7 @@ type <- as.factor(c(rep("Red Wine", nrow(redwine)), rep("White Wine", nrow(white
 wine <- cbind(wine, type)
 ```
 
-
-## 1. One Way Anova Test on the contain of Sulfure Dioxide
+#### 1. One Way Anova Test on the contain of Sulfure Dioxide
 
 ```{r}
 wine.Summary <-  wine %>% group_by(type) %>% summarise(mean_alcohol = mean(total.sulfur.dioxide), stdev_alcohol = sd(total.sulfur.dioxide))
@@ -124,7 +132,7 @@ wine_anova_table
 #pander(wine_anova_table, style='rmarkdown') 
 ```
 
-#### Hypothesis test
+##### Hypothesis test
 
 **Hypotheses**
 
@@ -147,9 +155,9 @@ Reject if $p < \alpha$, where $\alpha=0.05$.
 
 Reject $H_0$. There is sufficient evidence to suggest that the total sulfure dioxide contain in the two wine are diferent.
 
-# Adrienne's initial work
+### Adrienne's initial work
 
-## Testing assumptions on ANOVA
+#### Testing assumptions on ANOVA
 
 ```{r plotting fancily}
 almost_sas <- function(aov.results){
@@ -198,9 +206,9 @@ p2
 ```
 Both sets of data are not normal. Is this why we ran ANOVA?   
 ```
-# Jovan's work
+### Jovan's work
 
-## 2. Kruskal-Wallis Test on the Alcohol Content
+#### 2. Kruskal-Wallis Test on the Alcohol Content
 
 
 ```{r}
@@ -234,9 +242,9 @@ Reject if $p < \alpha$, where $\alpha=0.05$.
 
 Fail to reject $H_0$. There is not sufficient evidence to suggest that there is a diferent in the alcohol contain of the two type of wines.
 
-# Adrienne's work
+### Adrienne's work
 
-## Assumptions for KW
+#### Assumptions for KW
 
 ```{r}
 alcohol_anova_results <- aov(alcohol ~ type, data = wine)
@@ -254,9 +262,9 @@ looking at theses graphs, we can see that while a lot of our residuals are on th
 ```
 Since we have only two groups, should we run an indpendent samples t-test? Or the nonparametric version?  Or is it better to run the anova and KW since we have so many samples?
 ```
-#Jovan's work
+### Jovan's work
 
-## 3. Test of variability pH
+#### 3. Test of variability pH
 
 
 ```{r}
@@ -283,7 +291,7 @@ Reject $H_0$ if $p < \alpha$, where $\alpha=0.05$. $`r f_pvalue(pHvar$p.value)` 
 Fail to reject $H_0$. There is insufficient evidence to suggest that there is a difference in the variability of pH between red and white wines.
 
 
-## 4. Test of contain of Chlorides
+#### 4. Test of contain of Chlorides
 
 Formally test to determine if the mean of the chlorides contain on red wine is greater than that of white wine. Use the appropriate version of the t-test with the critical at the α = 0.05 level.
 
@@ -320,7 +328,7 @@ Reject if $p < \alpha$, where $\alpha=0.01$.
 Reject $H_0$. There is sufficient evidence to suggest that the contain chlorides in the red wine are greather than the white wine.
 
 
-## 5. Test of variability of residual sugar 
+#### 5. Test of variability of residual sugar 
 
 ```{r}
 rsvar <- var.test(redwine$residual.sugar, whitewine$residual.sugar, alternative = "t", conf.level = 0.95, ratio = 1)
@@ -346,7 +354,7 @@ Reject $H_0$ if $p < \alpha$, where $\alpha=0.05$. $`r f_pvalue(rsvar$p.value)` 
 Reject $H_0$. There is sufficient evidence to suggest that there is a difference in the variability of residual sugar contain between red and white wines.
 
 
-## 6. Test of contain of Citrid Acid
+#### 6. Test of contain of Citrid Acid
 
 Formally test to determine if the mean of the citrid acid contain on red wine is less than that of white wine. Use the appropriate version of the t-test with the critical at the α = 0.05 level.
 
@@ -383,7 +391,7 @@ Reject if $p < \alpha$, where $\alpha=0.01$.
 Reject $H_0$. There is sufficient evidence to suggest that the contain of citric acid in the red wine is less than the white wine.
 
 
-## 7. Proportion Test on Density??? 
+#### 7. Proportion Test on Density??? 
 
 ```
 What are density units for wine?  What does this mean in the real world? What does density greater than one mean?  Why did we run this test three times with numbers so close to each other?  (not critisising... just trying to figure out what's going on)---this would be a good intro to this section
@@ -476,7 +484,7 @@ Reject if $p < \alpha$, where $\alpha=0.05$.
 Fail to reject $H_0$. There is not sufficient evidence to suggest that the mean density wine is less than 0.99.
 
 
-## 8. Regression model
+#### 8. Regression model
 
 ```
 What is the regression actually modeling? for every one unit increase in all these predictors, what is our outcome?
@@ -497,7 +505,7 @@ one_ci <- as_tibble(confint(one_model, level=0.95))
 The resulting regression model is 
 \[ \hat{y} = `r one_coef[[1]]` + `r one_coef[[2]]`x_1 + `r one_coef[[3]]`x_2 + `r one_coef[[4]]`x_3 + `r one_coef[[5]]`x_4 + `r one_coef[[6]]`x_5 + `r one_coef[[7]]`x_6 + `r one_coef[[8]]`x_7 + `r one_coef[[9]]`x_8 + `r one_coef[[10]]`x_9\]
 
-### ANOVA table and testing for significance of regression line
+#### ANOVA table and testing for significance of regression line
 
 The corresponding ANOVA table is as follows
 
@@ -531,9 +539,9 @@ Reject if $p < \alpha$, where $\alpha=0.05$.
 
 Comparing every p value of the previous table with the alpha, can be check that with at lest one of then is greather than alpha, by this reason fail to reject $H_0$. There is not sufficient evidence to suggest that the regression line is significant.
 
-### Testing for significance of individual predictor
+#### Testing for significance of individual predictor
 
-#### Test for fixed acidity
+##### Test for fixed acidity
 
 **Hypotheses**
 
@@ -556,4 +564,3 @@ Reject if $p < \alpha$, where $\alpha=0.05$.
 
 Comparing every p value of the previous table with the alpha, can be check that with at lest one of then is greather than alpha, by this reason fail to reject $H_0$. There is not sufficient evidence to suggest that fixed acidity is a significant predictor of 
 
-valorie-test
