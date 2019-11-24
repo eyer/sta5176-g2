@@ -556,3 +556,4 @@ Reject if $p < \alpha$, where $\alpha=0.05$.
 
 Comparing every p value of the previous table with the alpha, can be check that with at lest one of then is greather than alpha, by this reason fail to reject $H_0$. There is not sufficient evidence to suggest that fixed acidity is a significant predictor of 
 
+valorie-test
