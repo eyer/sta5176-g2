@@ -1,6 +1,21 @@
 ---
-title: "Project"
-output: html_document
+title: "Project: Wine Quality"
+author: 
+- "Jovan Burgos"
+- "Adrinne Eddy"
+- "Chad Michael Eyer"
+- "Valorie Myer"
+- "Tyler Watson"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  html_document:
+    includes:
+      after_body: doc_prefix.html
+    theme: cerulean
+nocite: |
+  @Cortez2009aa
+csl: apa.csl
+bibliography: project.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -18,16 +33,7 @@ library(BSDA)
 # This should be placed in an r code chunk in the beginning of your R markdown
 # This code chunk by itself shouldn't produce any result.
 
-p.value.string = function(p.value){
-  p.value <- round(p.value, digits=4)
-  if (p.value == 0) {
-    return("p < 0.0001")
-  } else {
-    return(paste0("p = ", format(p.value, scientific = F)))
-  }
-}
-
-f_pvalue = function(p.value, symbol = "="){
+p.value.string = function(p.value, symbol = "="){
   p.value <- round(p.value, digits = 3)
   if (p.value == 0) {
     return("p < .001")
@@ -35,49 +41,50 @@ f_pvalue = function(p.value, symbol = "="){
     return(paste0("p", symbol, round(p.value, digits = 3)))
   }
 }
+
 ```
 
 ``` {r import, include=FALSE}
 #### Import raw data from source
-wq.red <- read.csv("winequality-red.csv", sep=";")
-wq.white <- read.csv("winequality-white.csv", sep=";")
+wine_red <- read.csv("winequality-red.csv", sep=";")
+wine_white <- read.csv("winequality-white.csv", sep=";")
 
-category <- c(rep("red", nrow(wq.red)), rep("white", nrow(wq.white))) # create new column to show wine category
+type <- c(rep("Red Wine", nrow(wine_red)), rep("White Wine", nrow(wine_white))) # create new column to show wine category
 
-wq <- rbind(wq.red, wq.white) # concatenate red and white datasets
-wq <- cbind(category, wq) # add category column
+wine <- rbind(wine_red, wine_white) # concatenate red and white datasets
+wine <- cbind(type, wine) # add category column
 ```
 
 ## Introduction
 
-briefly give meaning to your project – what is the background and why is this projectimportant?  (20 points)
+Briefly give meaning to your project – what is the background and why is this project important?  (20 points)
 
 ## Hypotheses
 
-clearly state the hypotheses being tested.  (20 points)
+Clearly state the hypotheses being tested.  (20 points)
 
 ## Methods
 
-state and explain the methodology used to test the hypotheses.  (20 points)
+State and explain the methodology used to test the hypotheses.  (20 points)
 
 ## Results
 
-describe the data (1st paragraph) as well as analysis results (order of results should correspondto hypotheses listed).  (20 points)
+Describe the data (1st paragraph) as well as analysis results (order of results should correspond to hypotheses listed).  (20 points)
 
 ## Conclusion
 
-restate the results in terms of the larger picture; state limitations and opportunities forfuture research (20 points)
+Restate the results in terms of the larger picture; state limitations and opportunities for future research (20 points)
 
-## References
+## Reference
 
-## Work
+<!-- Work
 
 ### Chad and Tyler's initial work
 
 #### Testing data summarization
 
 ```{r}
-white.summary <- wq.white %>% summarise(mean.citric.acid = mean(citric.acid), sd.citric.acid = sd(citric.acid), median.citric.acid = median(citric.acid))
+white.summary <- wine_white %>% summarise(mean.citric.acid = mean(citric.acid), sd.citric.acid = sd(citric.acid), median.citric.acid = median(citric.acid))
 white.summary
 ```
 
@@ -94,15 +101,15 @@ The median citric acid content is `r round(white.summary$median.citric.acid[1], 
 ##### Test statistic
 
 ```{r, warning=FALSE}
-pHvar.f <- var.test(wq.red$pH, wq.white$pH, alternative = "t", conf.level = 0.95, ratio = 1)
+pHvar.f <- var.test(wine_red$pH, wine_white$pH, alternative = "t", conf.level = 0.95, ratio = 1)
 ```
 
 * $F_0 = `r round(pHvar.f$statistic, digits = 2)`$.
-* $`r f_pvalue(pHvar.f$p.value)`$.
+* $`r p.value.string(pHvar.f$p.value)`$.
 
 ##### Rejection region
 
-Reject $H_0$ if $p < \alpha$, where $\alpha=0.05$. $`r f_pvalue(pHvar.f$p.value)` \nless 0.05.$
+Reject $H_0$ if $p < \alpha$, where $\alpha=0.05$. $`r p.value.string(pHvar.f$p.value)` \nless 0.05.$
 
 ##### Conclusion and interpretation
 
@@ -111,11 +118,11 @@ Fail to reject $H_0$. There is insufficient evidence to suggest that there is a 
 ### Jovan's initial work
 
 ```{r}
-redwine <- read.csv("winequality-red.csv", sep=";")
-whitewine <- read.csv("winequality-white.csv", sep=";")
-wine <- rbind(redwine, whitewine)
-type <- as.factor(c(rep("Red Wine", nrow(redwine)), rep("White Wine", nrow(whitewine))))
-wine <- cbind(wine, type)
+# wine_red <- read.csv("winequality-red.csv", sep=";")
+# wine_white <- read.csv("winequality-white.csv", sep=";")
+# wine <- rbind(wine_red, wine_white)
+# type <- as.factor(c(rep("Red Wine", nrow(wine_red)), rep("White Wine", nrow(wine_white))))
+# wine <- cbind(wine, type)
 ```
 
 #### 1. One Way Anova Test on the contain of Sulfure Dioxide
@@ -182,7 +189,7 @@ Since there are only two groups, should we look at doing an independent samples 
 ```
 
 ```{r}
-y <- as.data.frame(redwine)
+y <- as.data.frame(wine_red)
 p1 <- ggplot(y, aes(sample = total.sulfur.dioxide))
 p1 <- p1 + 
         stat_qq() + 
@@ -192,7 +199,7 @@ p1 <- p1 +
 
 p1
 
-y <- as.data.frame(whitewine)
+y <- as.data.frame(wine_white)
 p2 <- ggplot(y, aes(sample = total.sulfur.dioxide))
 p2 <- p2 + 
         stat_qq() + 
@@ -268,7 +275,7 @@ Since we have only two groups, should we run an indpendent samples t-test? Or th
 
 
 ```{r}
-pHvar <- var.test(redwine$pH, whitewine$pH, alternative = "t", conf.level = 0.95, ratio = 1)
+pHvar <- var.test(wine_red$pH, wine_white$pH, alternative = "t", conf.level = 0.95, ratio = 1)
 pHvar 
 ```
 
@@ -280,11 +287,11 @@ pHvar
 **Test Statistic**
 
 * $F_0 = `r round(pHvar$statistic, digits = 2)`$.
-* $`r f_pvalue(pHvar$p.value)`$.
+* $`r p.value.string(pHvar$p.value)`$.
 
 **Rejection Region**
 
-Reject $H_0$ if $p < \alpha$, where $\alpha=0.05$. $`r f_pvalue(pHvar$p.value)` \nless 0.05.$
+Reject $H_0$ if $p < \alpha$, where $\alpha=0.05$. $`r p.value.string(pHvar$p.value)` \nless 0.05.$
 
 **Conclusion and Interpretation**
 
@@ -301,7 +308,7 @@ wine.Summary
 ```
 
 ```{r}
-chlorides_t <- t.test(redwine$chlorides, whitewine$chlorides, paired = FALSE, alternative = "greater")
+chlorides_t <- t.test(wine_red$chlorides, wine_white$chlorides, paired = FALSE, alternative = "greater")
 chlorides_t
 chlorides_p <- p.value.string(chlorides_t$p.value)
 ```
@@ -331,7 +338,7 @@ Reject $H_0$. There is sufficient evidence to suggest that the contain chlorides
 #### 5. Test of variability of residual sugar 
 
 ```{r}
-rsvar <- var.test(redwine$residual.sugar, whitewine$residual.sugar, alternative = "t", conf.level = 0.95, ratio = 1)
+rsvar <- var.test(wine_red$residual.sugar, wine_white$residual.sugar, alternative = "t", conf.level = 0.95, ratio = 1)
 rsvar
 ```
 
@@ -343,11 +350,11 @@ rsvar
 **Test Statistic**
 
 * $F_0 = `r round(rsvar$statistic, digits = 2)`$.
-* $`r f_pvalue(rsvar$p.value)`$.
+* $`r p.value.string(rsvar$p.value)`$.
 
 **Rejection Region**
 
-Reject $H_0$ if $p < \alpha$, where $\alpha=0.05$. $`r f_pvalue(rsvar$p.value)` < 0.05.$
+Reject $H_0$ if $p < \alpha$, where $\alpha=0.05$. $`r p.value.string(rsvar$p.value)` < 0.05.$
 
 **Conclusion and Interpretation**
 
@@ -364,7 +371,7 @@ wine.Summary3
 ```
 
 ```{r}
-citricacid_t <- t.test(redwine$citric.acid, whitewine$citric.acid, paired = FALSE, alternative = "less")
+citricacid_t <- t.test(wine_red$citric.acid, wine_white$citric.acid, paired = FALSE, alternative = "less")
 citricacid_t
 citricacid_p <- p.value.string(chlorides_t$p.value)
 ```
@@ -564,3 +571,4 @@ Reject if $p < \alpha$, where $\alpha=0.05$.
 
 Comparing every p value of the previous table with the alpha, can be check that with at lest one of then is greather than alpha, by this reason fail to reject $H_0$. There is not sufficient evidence to suggest that fixed acidity is a significant predictor of 
 
+-->
