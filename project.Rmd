@@ -51,6 +51,12 @@ Briefly give meaning to your project – what is the background and why is this 
 
 Clearly state the hypotheses being tested.  (20 points)
 
+- Are mean quality of red wines equal to mean quality of white wines?
+- Are variances of quality of red wines equal to variances of quality of white wines?
+- Do phoisochemical attributes significantlty effect quality?
+- If so which physiochemical attributes significantlty effect quality?
+- Is there an interaction between citric acid and pH for red wines?
+
 ## Methods
 
 State and explain the methodology used to test the hypotheses.  (20 points)
