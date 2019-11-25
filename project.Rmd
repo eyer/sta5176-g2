@@ -45,7 +45,10 @@ wine <- cbind(type, wine) # add category column
 
 ## Introduction
 
-Briefly give meaning to your project – what is the background and why is this project important?  (20 points)
+This project will be comparing different physiochemical and sensory elements of wine. The wine in this data set are Vinho Verde wines, which comes from Minho region of Portugal. The data was collected between May 2004 and February 2007 and includes 1599 red wine samples and 4898 white wine samples. Wine testing is important to both sellers and consumers. By testing wine samples, vineyards are able to ensure that their wines are safe for consumers and that the taste of each type of wine stays consistent. It is even used to help set pricing scales. 
+
+This study looked at 11 different physicochemical variables: fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, and alcohol content. This data also contains a sensory score variable called “quality.” Each wine sample was tasted by at least 3 judges, each of whom scored the wine from 0 (very bad) to 10 (excellent). The quality variable was the median of the scores. 
+
 
 ## Hypotheses
 
