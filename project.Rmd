@@ -55,9 +55,38 @@ Clearly state the hypotheses being tested.  (20 points)
 
 State and explain the methodology used to test the hypotheses.  (20 points)
 
+To compare the mean quality of red and white wines, we first note we are working with independent data points. Then, we plot the data and the residuals to test for normality and similar variance. We see that our variances are similar (from the length of vertical lines in the "Residuals vs Fitted" plot). We see the residuals are normally distributed because the histogram is mound-shaped and centered around zero and the q-q plot shows few deviations from a 45° line. The data meet the assumptions for an ANOVA test, so we perform the ANOVA test.
+
+``` {r}
+wine_anova <- aov(quality ~ type, data = wine)
+wine_anova_table <- summary(wine_anova)
+wine_anova_table
+
+plot_anova_assumptions <- function(aov.results){
+  par(mfrow=c(2,2))
+  plot(aov.results, which=1)
+  plot(aov.results, which=2)
+  aov_residuals <- residuals(aov.results)
+  plot(density(aov_residuals))
+  hist(aov_residuals)
+}
+
+plot_anova_assumptions(wine_anova)
+```
+
+To test the variability of the quality scores of red and white wines, we use an $F$ test at the 95% confidence level.
+
+``` {r}
+wine_quality_var.f <- var.test(wine_red$quality, wine_white$quality, alternative = "t", conf.level = 0.95, ratio = 1)
+```
+
 ## Results
 
 Describe the data (1st paragraph) as well as analysis results (order of results should correspond to hypotheses listed).  (20 points)
+
+The mean quality scores of red and white wines is significantly different ($`r p.value.string(wine_anova_table[[1]][["Pr(>F)"]][1])`$) at the $\alpha = .05$ level.
+
+The variability of the quality scores of red and white wines is significantly different ($`r p.value.string(wine_quality_var.f$p.value)`$, $`r (wine_quality_var.f$p.value)`$) at the $\alpha = .05$ level.
 
 ## Conclusion
 
