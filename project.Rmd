@@ -51,6 +51,13 @@ Briefly give meaning to your project – what is the background and why is this 
 
 Clearly state the hypotheses being tested.  (20 points)
 
+- Are mean quality of red wines equal to mean quality of white wines?
+
+-Which phoisochemical attributes significantlty effect quality?
+
+-Is there an interaction between citric acid and pH for red wines?
+
+
 ## Methods
 
 State and explain the methodology used to test the hypotheses.  (20 points)
@@ -65,7 +72,7 @@ Restate the results in terms of the larger picture; state limitations and opport
 
 ## Reference
 
-<!-- Work
+ Work
 
 ### Chad and Tyler's initial work
 
