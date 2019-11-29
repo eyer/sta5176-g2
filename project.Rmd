@@ -48,21 +48,58 @@ wine <- cbind(type, wine) # add category column
 This project will be comparing different physiochemical and sensory elements of wine. The wine in this data set are Vinho Verde wines, which comes from Minho region of Portugal. The data was collected between May 2004 and February 2007 and includes 1599 red wine samples and 4898 white wine samples. Wine testing is important to both sellers and consumers. By testing wine samples, vineyards are able to ensure that their wines are safe for consumers and that the taste of each type of wine stays consistent. It is even used to help set pricing scales. 
 
 This study looked at 11 different physicochemical variables: fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, and alcohol content. This data also contains a sensory score variable called “quality.” Each wine sample was tasted by at least 3 judges, each of whom scored the wine from 0 (very bad) to 10 (excellent). The quality variable was the median of the scores. 
+
 ## Hypotheses
 
 Clearly state the hypotheses being tested.  (20 points)
 
 - Are mean quality of red wines equal to mean quality of white wines?
 - Are variances of quality of red wines equal to variances of quality of white wines?
-- Do phoisochemical attributes significantlty effect quality?
-- If so which physiochemical attributes significantlty effect quality?
-- Is there an interaction between citric acid and pH for red wines?
+- Do phoisochemical attributes significantlty affect quality?
+- If so which physiochemical attributes significantlty affect quality?
+- Is there an interaction between citric acid and pH for red wines as it affects quality?
 
 ## Methods
 
 State and explain the methodology used to test the hypotheses.  (20 points)
 
-To compare the mean quality of red and white wines, we first note we are working with independent data points. Then, we plot the data and the residuals to test for normality and similar variance. We see that our variances are similar (from the length of vertical lines in the "Residuals vs Fitted" plot). We see the residuals are normally distributed because the histogram is mound-shaped and centered around zero and the q-q plot shows few deviations from a 45° line. The data meet the assumptions for an ANOVA test, so we perform the ANOVA test.
+<!--
+Note from Adrienne
+I did some tweaking for the methods section  I've been working with my principal on writing his PhD prospectus and thesis.  The methods chapter doesn't have any results in it.  It just has what tests he plans to run.  (For his thesis, he plans on using an independent samples t-test, using pre-existing data).  I really think this is what we should have here.  I think stating that we are testing assumptions is good methodology, but I think we should list out what methods we use to test each hypothesis.  
+-->
+
+Below, you will find the tests for each hypothesis and a brief explanation and justification for each test.
+
+
+**-Are mean quality of red wines equal to mean quality of white wines?**  
+
+Provided the data meets the assumptions, we will use ANOVA because the two sets of data are independent and this test will allow us to compare means.
+
+**-Are variances of quality of red wines equal to variances of quality of white wines?**
+
+We plan on using $F$ test because this test will allow us to compare the variances of each data set to see if they are equal.
+
+**-Do phoisochemical attributes significantlty affect quality?**
+
+We will use multivariable regression because this will allow us to create a model that will show if there is any relationship between any of the attributes and the quality of the wine.  We will start with pairwise scatterplots which will give us a visual idea of what the data looks like.  We will also run a lack of fit test to make sure our regression model fits. We will run Pearson's/Spearman's Correlation Coefficient (whichever is appropriate)
+
+**-If so, which physiochemical attributes significantlty affect quality?**
+
+We will run t-tests on each predictor to determine which, if any, significantly affect quality.
+
+**-Is there an interaction between citric acid and pH for red wines as it affects quality?**
+
+We will set up a regression model and test to see if there is an interaction. 
+
+
+All tests are run at the $95\%$ confidence level unless otherwise noted
+
+<!--
+I feel like this is a better break down of the methods section, but am open to suggestions/comments.  Please let me know what you think.
+-->
+
+
+To compare the mean quality of red and white wines, we first note we are working with independent data points--that is the data for red wine is not affected by the data for white wine. Then, we visually examine data and the residuals through plots to test for normality and similar variance. We see that our variances are similar (from the length of vertical lines in the "Residuals vs Fitted" plot). We see the residuals are normally distributed because the histogram is mound-shaped and centered around zero and the q-q plot shows few deviations from a 45° line. The data meet the assumptions for an ANOVA test, so we perform the ANOVA test.
 
 ``` {r}
 wine_anova <- aov(quality ~ type, data = wine)
