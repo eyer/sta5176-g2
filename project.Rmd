@@ -36,7 +36,7 @@ Created group chat for the group. Completed introduction. Gave results for test 
 
 
 Tyler Watson:
-Formulated hypotheses. Created detailed list of contributions. Completed test for hypotheses one and two. Put methods section into past tense.
+Formulated hypotheses. Created detailed list of contributions. Completed test for hypotheses one and two. Put methods section into past tense. Completed test for hypothesis five.
 
 
 -->
@@ -49,13 +49,14 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(stats)
 library(BSDA)
+library(pander)
 
 p.value.string = function(p.value, symbol = "="){
-  p.value <- round(p.value, digits = 3)
+  p.value <- round(p.value, digits = 4)
   if (p.value == 0) {
     return("p < .001")
   } else {
-    return(paste0("p", symbol, round(p.value, digits = 3)))
+    return(paste0("p", symbol, round(p.value, digits = 4)))
   }
 }
 
@@ -165,6 +166,7 @@ This study looked at 11 different physicochemical variables: fixed acidity, vola
 
 ### Hypothesis 1
 
+
 ``` {r , include=FALSE}
 wine_quality_var.f <- var.test(wine_red$quality, wine_white$quality, alternative = "t", conf.level = 0.95, ratio = 1)
 ```
@@ -234,6 +236,45 @@ winequal2
 From these t-tests, we can conclude that the mean qualities of red wine and white wine are significantly different.  There is also enough evidence to suggest that the mean quality of red wine is less than the mean quality of white wine.  We should run further tests to see what physiochemical properties affect the quality of wine.  We could even see what properties white wine has more or less of compared to red wine. 
 
 
+### Hypothesis 5 
+
+```{r}
+wine_red_results <- aov(quality ~ citric.acid*volatile.acidity, data = wine_red )
+
+wine_red_table <- summary(wine_red_results)
+
+pander(wine_red_table, style='rmarkdown') 
+```
+
+
+<!--
+### Hypothesis test for interaction
+
+**Hypotheses**
+
+$H_0:$ There is not an interaction between citric acid and volatile acidity <br> 
+$H_1:$ There is an interaction between citric acid and volatile acidity
+
+**Test Statistic**
+
+$F_0 = `r round(wine_red_table[[1]][["F value"]][3], digits=3)`$.
+
+***p*-value**
+
+$`r p.value.string(wine_red_table[[1]][["Pr(>F)"]][3])`$.
+
+**Rejection Region**
+
+Reject if $p < \alpha$, where $\alpha=0.05$.
+
+**Conclusion and Interpretation**
+-->
+
+There is sufficient evidence to suggest that there is an interaction between citric acid and volatile acidity because $`r p.value.string(wine_red_table[[1]][["Pr(>F)"]][3])`$.
+
+
+
+
 ### Hypothesis 3
 
 ```{r}
@@ -288,7 +329,7 @@ wine %>%
 ```
 
 density is different
-There is a slight relationship between density and quality... there is a slight shift in the data stacks.  We could predict a very very steep regression line. 
+There is a slight relationship between density and quality... there is a slight shift in the data stacks. We could predict a very very steep regression line. 
 
 ```{r}
 winefa <- t.test(wine_red$fixed.acidity, wine_white$fixed.acidity, var.equal = FALSE)
@@ -324,7 +365,7 @@ wine %>%
   theme_bw() 
 ```
 
-The volatile acidity is different between red and white wine.  There appears to be a weak negative relationship between volatile acidity and quality.
+The volatile acidity is different between red and white wine. There appears to be a weak negative relationship between volatile acidity and quality.
 
 
 
@@ -365,6 +406,7 @@ wine %>%
 ```
 
 there is a very large and significant difference in residual sugar between red and white wine, There does not appear to be a relationship between residual sugar and quality. There is also an outlier, which might make running any kind of regression difficult.
+
 ```{r}
 winech <- t.test(wine_red$chlorides, wine_white$chlorides, var.equal = FALSE)
 winech
