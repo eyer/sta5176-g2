@@ -36,7 +36,7 @@ Created group chat for the group. Completed introduction. Gave results for test 
 
 
 Tyler Watson:
-Formulated hypotheses. Created detailed list of contributions. Completed test for hypotheses one and two
+Formulated hypotheses. Created detailed list of contributions. Completed test for hypotheses one and two. Put methods section into past tense.
 
 
 -->
@@ -71,7 +71,7 @@ wine <- cbind(type, wine) # add category column
 
 ## Introduction
 
-Wine.  It's made up of all kinds of chemicals. These chemicals can affect taste.  They can also affect our bodies. Alcohol has the effect of lowering inhibitions, among others.  Sulfer dioxide is a preservative, which means that bottle of '92 Bordeaux won't kill you. Sulphates are a completely different compound. Sulphates are anti-inflamitory, and anti-depressant, which means we can drink wine and claim it's good for our health! Yay wine! 
+Wine. It's made up of all kinds of chemicals. These chemicals can affect taste.  They can also affect our bodies. Alcohol has the effect of lowering inhibitions, among others.  Sulfer dioxide is a preservative, which means that bottle of '92 Bordeaux won't kill you. Sulphates are a completely different compound. Sulphates are anti-inflamitory, and anti-depressant, which means we can drink wine and claim it's good for our health! Yay wine! 
 
 We compare and test different physiochemical and sensory elements of wine and compare them to the qualitiy of said wines.  We want to know what elements of wine make for good quality wine. For example, volatile acidity is how wine spoilage is measured.  Typically wine makers attempt to keep volatile acidity to a minimum to improve the quality of wine. Residual sugar is sugar left after the fermentation process, adding to the sweetness of the wine. Chlorides in wine affect the saltiness taste in wines. If a wine is too salty, it may not be tasty. Citric acid keeps a wine tasting fresh, while imparting a slight citric taste to the wine.
 
@@ -114,11 +114,11 @@ Below, you will find the tests for each hypothesis and a brief explanation and j
 
 **-Are variances of quality of red wines equal to variances of quality of white wines?**
 
-We plan on using $F$ test because this test will allow us to compare the variances of each data set to see if they are equal. We will use this to guide us in determining which tests to use along the way.
+We used the $F$ test because this test allows us to compare the variances of each data set to see if they are equal. We used this to guide us in determining which tests to use along the way.
 
 **-Are mean quality of red wines equal to mean quality of white wines?**  
 
-Provided the data meets the assumptions, we will use ANOVA because the two sets of data are independent and this test will allow us to compare means.
+Provided that the data met the assumptions, we used ANOVA because the two sets of data are independent and this test allows us to compare means.
 <!--Adrienne still thinks we should use independent samples t-test because we are only comparing two means, not more than two, which is really what ANOVA is for. 
 Independent t will also allow us to test all directions, =, <, >... which will give us a much better picture than just "are they equal"? 
 In ANOVA, our only null and alternative is "they are all equal or one is different", then we do post hoc to tell us which is different.  This still doesn't give us direction.  Since we only have two, I feel like t is a better choice, because we can get directionality out of it.  t, with unequal variances.  I set up the test, but am having some difficutly with getting the code to work outside the test... In paragraph form.  I can look at results in a window, so I know how how the test went and what the p-value and t-vales are, but can't call them when I write the paragraph.  
@@ -127,18 +127,15 @@ In ANOVA, our only null and alternative is "they are all equal or one is differe
 
 **-Do phoisochemical attributes significantlty affect quality?**
 
-We will use multivariable regression because this will allow us to create a model that will show if there is any relationship between any of the attributes and the quality of the wine.  We will start with pairwise scatterplots which will give us a visual idea of what the data looks like.  We will also run a lack of fit test to make sure our regression model fits. We will run Pearson's/Spearman's Correlation Coefficient (whichever is appropriate)
+We used multivariable regression because this allows us to create a model that will show if there is any relationship between any of the attributes and the quality of the wine.  We created pairwise scatterplots which give us a visual idea of what the data looks like.  We ran a lack of fit test to make sure our regression model fits. We ran Pearson's/Spearman's Correlation Coefficient
 
 **-If so, which physiochemical attributes significantlty affect quality?**
 
-We will run t-tests on each predictor to determine which, if any, significantly affect quality.
+We performed t-tests on each predictor to determine which, if any, significantly affect quality.
 
-**-Is there an interaction between citric acid and pH for red wines as it affects quality?**
+**-Is there an interaction between citric acid and volatile acidity for red wines as it affects quality?**
 
-We will set up a regression model and test to see if there is an interaction. 
-
-
-
+We created a regression model to detrmine if there is an interaction between citric acid and volatile acidity. 
 
 All tests are run at the $95\%$ confidence level unless otherwise noted
 
