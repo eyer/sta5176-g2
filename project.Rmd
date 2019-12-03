@@ -50,6 +50,7 @@ library(tidyverse)
 library(stats)
 library(BSDA)
 library(pander)
+library(alr3)
 
 p.value.string = function(p.value, symbol = "="){
   p.value <- round(p.value, digits = 4)
@@ -149,10 +150,7 @@ I feel like this is a better break down of the methods section, but am open to s
 -->
 
 ## Results
-
 Describe the data (1st paragraph) as well as analysis results (order of results should correspond to hypotheses listed).  (20 points)
-
-
 
 ### Description of Data
 <!--Adrienne stuck the introduction here as a description of data, becuase she feels that this is maybe better used as a description of data, rather than an introduction.  Maybe we can write the introduction at the end, when we are finished.  It's what I do sometimes... When I know what the rest of the paper looks like.  I feel like this is a strong descripton of data.  I'm not sure what else to write here other than this.
@@ -236,46 +234,32 @@ winequal2
 From these t-tests, we can conclude that the mean qualities of red wine and white wine are significantly different.  There is also enough evidence to suggest that the mean quality of red wine is less than the mean quality of white wine.  We should run further tests to see what physiochemical properties affect the quality of wine.  We could even see what properties white wine has more or less of compared to red wine. 
 
 
-### Hypothesis 5 
-
-```{r}
-wine_red_results <- aov(quality ~ citric.acid*volatile.acidity, data = wine_red )
-
-wine_red_table <- summary(wine_red_results)
-
-pander(wine_red_table, style='rmarkdown') 
-```
-
-
-<!--
-### Hypothesis test for interaction
-
-**Hypotheses**
-
-$H_0:$ There is not an interaction between citric acid and volatile acidity <br> 
-$H_1:$ There is an interaction between citric acid and volatile acidity
-
-**Test Statistic**
-
-$F_0 = `r round(wine_red_table[[1]][["F value"]][3], digits=3)`$.
-
-***p*-value**
-
-$`r p.value.string(wine_red_table[[1]][["Pr(>F)"]][3])`$.
-
-**Rejection Region**
-
-Reject if $p < \alpha$, where $\alpha=0.05$.
-
-**Conclusion and Interpretation**
--->
-
-There is sufficient evidence to suggest that there is an interaction between citric acid and volatile acidity because $`r p.value.string(wine_red_table[[1]][["Pr(>F)"]][3])`$.
-
-
-
 
 ### Hypothesis 3
+
+``` {r}
+h3_model <- lm(quality ~ fixed.acidity + volatile.acidity + citric.acid + residual.sugar + chlorides + free.sulfur.dioxide + total.sulfur.dioxide + density + pH + sulphates + alcohol, data=wine)
+h3_anova <- Anova(h3_model, type = 3, digits = 3)
+h3_coef <- coefficients(h3_model)
+h3_beta0 <- h3_coef[[1]]
+h3_beta1 <- h3_coef[[2]]
+h3_beta2 <- h3_coef[[3]]
+h3_ci <- as_tibble(confint(h3_model, level=0.95))
+h3_beta1_ci <- h3_ci[2,]
+h3_beta2_ci <- h3_ci[3,]
+h3_model_F <- h3_anova$"F value"[1]
+h3_model_p <- h3_anova$"Pr(>F)"[1]
+h3_summary <- summary(h3_model)
+h3_t <- as_tibble(h3_summary[[4]])
+h3_t1 <- h3_t$"t value"[[2]]
+h3_t2 <- h3_t$"t value"[[3]]
+h3_p1 <- h3_t$"Pr(>|t|)"[[2]]
+h3_p2 <- h3_t$"Pr(>|t|)"[[3]]
+
+h3_anova
+```
+
+### Hypothesis 4
 
 ```{r}
 wineal <- t.test(wine_red$alcohol, wine_white$alcohol, var.equal = FALSE)
@@ -495,6 +479,51 @@ There is a statistically significant difference between red and white wine in al
 
 Visually speaking, there is possibly only a relationship in sulphates, 
 
+
+### Hypothesis 5 
+
+```{r}
+wine_red_results <- aov(quality ~ citric.acid*volatile.acidity, data = wine_red )
+
+wine_red_table <- summary(wine_red_results)
+
+pander(wine_red_table, style='rmarkdown') 
+```
+
+
+<!--
+### Hypothesis test for interaction
+
+**Hypotheses**
+
+$H_0:$ There is not an interaction between citric acid and volatile acidity <br> 
+$H_1:$ There is an interaction between citric acid and volatile acidity
+
+**Test Statistic**
+
+$F_0 = `r round(wine_red_table[[1]][["F value"]][3], digits=3)`$.
+
+***p*-value**
+
+$`r p.value.string(wine_red_table[[1]][["Pr(>F)"]][3])`$.
+
+**Rejection Region**
+
+Reject if $p < \alpha$, where $\alpha=0.05$.
+
+**Conclusion and Interpretation**
+-->
+
+There is sufficient evidence to suggest that there is an interaction between citric acid and volatile acidity because $`r p.value.string(wine_red_table[[1]][["Pr(>F)"]][3])`$.
+
+
+
+
+
+## Session Info
+
+```{r sessionInfo, include=TRUE, echo=TRUE, results='markup'}
+sessionInfo()
 ## Conclusion
 
 Restate the results in terms of the larger picture; state limitations and opportunities for future research (20 points)
