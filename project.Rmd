@@ -18,6 +18,32 @@ csl: apa.csl
 bibliography: project.bib
 ---
 
+<!--Detailed List of Contributions
+***On the final exam Dr. Seals will ask you to name everyone in your group along with all of their contributions. Please add your contributions you've done for this project and then get a rough idea of what everyone did before the final.
+
+Jovan Burgos:
+Created a code for an assortment of tests. Created idea of having wine quality for data set.Gave results for test three, four, and five
+
+Adrienne Eddy:
+Completed the methods section. Gave results for test three, four, and five
+
+
+Chad Michael Eyer:
+Created and trained on GitHub. Hosted virtual meeting. Created hypotheses. Completed test for hypotheses one and two. Found concrete data set
+
+Valorie Myer:
+Created group chat for the group. Completed introduction. Gave results for test three, four, and five
+
+
+Tyler Watson:
+Formulated hypotheses. Created detailed list of contributions. Completed test for hypotheses one and two
+
+
+-->
+
+
+
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
