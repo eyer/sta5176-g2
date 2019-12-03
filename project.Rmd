@@ -172,8 +172,8 @@ ANOVA is for more than two population means.  Here, we only have two.  We should
 -->
 
 ```{r, include=FALSE}
-wineqaul <- t.test(wine_red$quality, wine_white$quality, var.equal = FALSE)
-wineqaul
+winequal <- t.test(wine_red$quality, wine_white$quality, var.equal = FALSE)
+winequal
 ```
 
 <!--
@@ -185,13 +185,13 @@ t= `r winequal$statistic[1]`
 Help!  I cannot get this code to read correctly.  I don't know what I'm doing wrong.  It should call the test I just created, but it won't.  The test runs fine, and creates statistics and a p-value which is helpful, but I can't type out code for writing results
 -->
 ```{r, include=FALSE}
-wineqaul1 <- t.test(wine_red$quality, wine_white$quality, var.equal = FALSE, alternative = "greater")
-wineqaul1
+winequal1 <- t.test(wine_red$quality, wine_white$quality, var.equal = FALSE, alternative = "greater")
+winequal1
 ```
 
 ```{r, include=FALSE}
-wineqaul2 <- t.test(wine_red$quality, wine_white$quality, var.equal = FALSE, alternative = "less")
-wineqaul2
+winequal2 <- t.test(wine_red$quality, wine_white$quality, var.equal = FALSE, alternative = "less")
+winequal2
 ```
 
 
@@ -416,6 +416,7 @@ pairs(~sulphates+total.sulfur.dioxide+chlorides+citric.acid+pH+volatile.acidity+
 There is a statistically significant difference between red and white wine in all of the physiochemical factors that make up wine. 
 
 Visually speaking, there is possibly only a relationship in sulphates, 
+
 ## Conclusion
 
 Restate the results in terms of the larger picture; state limitations and opportunities for future research (20 points)
