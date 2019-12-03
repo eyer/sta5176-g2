@@ -423,7 +423,6 @@ Restate the results in terms of the larger picture; state limitations and opport
 
 ## Reference
 
-Work
 <!--
 ### Chad and Tyler's initial work
 
