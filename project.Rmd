@@ -66,12 +66,14 @@ Clearly state the hypotheses being tested.  (20 points)
 
 - If so which physiochemical attributes significantlty affect quality?
 
-- Is there an interaction between citric acid and pH for red wines as it affects quality?
+- Is there an interaction between citric acid and volatile acidity for red wines?
 
 <!--Adrienne read that citric acid can lead to volatile acidity.  Why don't we look for an interaction between citric acid and volatile acidity as its metabolism affects quality?
 https://morewinemaking.com/products/citric-acid.html
 
 citric acid is used as a sanitization agent between wine batches.
+
+CME: I like this.
 -->
 
 ## Methods
@@ -81,6 +83,8 @@ State and explain the methodology used to test the hypotheses.  (20 points)
 <!--
 Note from Adrienne
 I did some tweaking for the methods section  I've been working with my principal on writing his PhD prospectus and thesis.  The methods chapter doesn't have any results in it.  It just has what tests he plans to run.  (For his thesis, he plans on using an independent samples t-test, using pre-existing data).  I really think this is what we should have here.  I think stating that we are testing assumptions is good methodology, but I think we should list out what methods we use to test each hypothesis.  
+
+I like this, but I feel that it should be in past tense. Is that okay?
 -->
 
 Below, you will find the tests for each hypothesis and a brief explanation and justification for each test.
@@ -174,15 +178,24 @@ ANOVA is for more than two population means.  Here, we only have two.  We should
 ```{r, include=FALSE}
 winequal <- t.test(wine_red$quality, wine_white$quality, var.equal = FALSE)
 winequal
+winequal.t <- winequal$statistic[1]
+winequal.t
+winequal.p <- winequal$p.value[1]
+winequal.p
 ```
 
 <!--
 h0: red<white
 h1:red ge white
+-->
 
-t= `r winequal$statistic[1]`
+* $t = `r winequal.t`$
+* $`r p.value.string(winequal.p)`$
 
+<!--
 Help!  I cannot get this code to read correctly.  I don't know what I'm doing wrong.  It should call the test I just created, but it won't.  The test runs fine, and creates statistics and a p-value which is helpful, but I can't type out code for writing results
+
+CME: I think I got it.
 -->
 ```{r, include=FALSE}
 winequal1 <- t.test(wine_red$quality, wine_white$quality, var.equal = FALSE, alternative = "greater")
