@@ -49,6 +49,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(stats)
 library(BSDA)
+library(alr3)
 
 p.value.string = function(p.value, symbol = "="){
   p.value <- round(p.value, digits = 3)
@@ -235,6 +236,30 @@ From these t-tests, we can conclude that the mean qualities of red wine and whit
 
 
 ### Hypothesis 3
+
+``` {r}
+h3_model <- lm(quality ~ fixed.acidity + volatile.acidity + citric.acid + residual.sugar + chlorides + free.sulfur.dioxide + total.sulfur.dioxide + density + pH + sulphates + alcohol, data=wine)
+h3_anova <- Anova(h3_model, type = 3, digits = 3)
+h3_coef <- coefficients(h3_model)
+h3_beta0 <- h3_coef[[1]]
+h3_beta1 <- h3_coef[[2]]
+h3_beta2 <- h3_coef[[3]]
+h3_ci <- as_tibble(confint(h3_model, level=0.95))
+h3_beta1_ci <- h3_ci[2,]
+h3_beta2_ci <- h3_ci[3,]
+h3_model_F <- h3_anova$"F value"[1]
+h3_model_p <- h3_anova$"Pr(>F)"[1]
+h3_summary <- summary(h3_model)
+h3_t <- as_tibble(h3_summary[[4]])
+h3_t1 <- h3_t$"t value"[[2]]
+h3_t2 <- h3_t$"t value"[[3]]
+h3_p1 <- h3_t$"Pr(>|t|)"[[2]]
+h3_p2 <- h3_t$"Pr(>|t|)"[[3]]
+
+h3_anova
+```
+
+### Hypothesis 4
 
 ```{r}
 wineal <- t.test(wine_red$alcohol, wine_white$alcohol, var.equal = FALSE)
