@@ -29,7 +29,7 @@ Completed the methods section. Gave results for test three, four, and five
 
 
 Chad Michael Eyer:
-Created and trained on GitHub. Hosted virtual meeting. Created hypotheses. Completed test for hypotheses one and two. Found concrete data set
+Created and trained on GitHub. Hosted virtual meeting. Created hypotheses. Completed test for hypotheses one, two, and three. Found concrete data set
 
 Valorie Myer:
 Created group chat for the group. Completed introduction. Gave results for test three, four, and five
@@ -90,7 +90,7 @@ Clearly state the hypotheses being tested.  (20 points)
 
 - Are mean quality of red wines equal to mean quality of white wines?
 
-- Do phoisochemical attributes significantlty affect quality?
+- Do physiochemical attributes significantlty affect quality?
 
 - If so which physiochemical attributes significantlty affect quality?
 
@@ -131,7 +131,7 @@ In ANOVA, our only null and alternative is "they are all equal or one is differe
 -->
 
 
-**-Do phoisochemical attributes significantlty affect quality?**
+**-Do physiochemical attributes significantlty affect quality?**
 
 We used multivariable regression because this allows us to create a model that will show if there is any relationship between any of the attributes and the quality of the wine.  We created pairwise scatterplots which give us a visual idea of what the data looks like.  We ran a lack of fit test to make sure our regression model fits. We ran Pearson's/Spearman's Correlation Coefficient
 
@@ -524,6 +524,8 @@ There is sufficient evidence to suggest that there is an interaction between cit
 
 ```{r sessionInfo, include=TRUE, echo=TRUE, results='markup'}
 sessionInfo()
+```
+
 ## Conclusion
 
 Restate the results in terms of the larger picture; state limitations and opportunities for future research (20 points)
