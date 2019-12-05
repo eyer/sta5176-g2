@@ -84,16 +84,12 @@ This study looked at 11 different physicochemical variables: fixed acidity, vola
 
 ## Hypotheses
 
-Clearly state the hypotheses being tested.  (20 points)
+This project answers the following research questions:
 
 - Are variances of quality of red wines equal to variances of quality of white wines?
-
 - Are mean quality of red wines equal to mean quality of white wines?
-
 - Do physiochemical attributes significantlty affect quality?
-
 - If so which physiochemical attributes significantlty affect quality?
-
 - Is there an interaction between citric acid and volatile acidity for red wines?
 
 <!--Adrienne read that citric acid can lead to volatile acidity.  Why don't we look for an interaction between citric acid and volatile acidity as its metabolism affects quality?
@@ -106,7 +102,7 @@ CME: I like this.
 
 ## Methods
 
-State and explain the methodology used to test the hypotheses.  (20 points)
+All tests are run at the $95\%$ confidence level unless otherwise noted.
 
 <!--
 Note from Adrienne
@@ -117,12 +113,11 @@ I like this, but I feel that it should be in past tense. Is that okay?
 
 Below, you will find the tests for each hypothesis and a brief explanation and justification for each test.
 
-
-**-Are variances of quality of red wines equal to variances of quality of white wines?**
+### Variances of quality
 
 We used the $F$ test because this test allows us to compare the variances of each data set to see if they are equal. We used this to guide us in determining which tests to use along the way.
 
-**-Are mean quality of red wines equal to mean quality of white wines?**  
+### Mean quality  
 
 Provided that the data met the assumptions, we used ANOVA because the two sets of data are independent and this test allows us to compare means.
 <!--Adrienne still thinks we should use independent samples t-test because we are only comparing two means, not more than two, which is really what ANOVA is for. 
@@ -130,20 +125,17 @@ Independent t will also allow us to test all directions, =, <, >... which will g
 In ANOVA, our only null and alternative is "they are all equal or one is different", then we do post hoc to tell us which is different.  This still doesn't give us direction.  Since we only have two, I feel like t is a better choice, because we can get directionality out of it.  t, with unequal variances.  I set up the test, but am having some difficutly with getting the code to work outside the test... In paragraph form.  I can look at results in a window, so I know how how the test went and what the p-value and t-vales are, but can't call them when I write the paragraph.  
 -->
 
-
-**-Do physiochemical attributes significantlty affect quality?**
+### Physiochemical attributes and quality
 
 We used multivariable regression because this allows us to create a model that will show if there is any relationship between any of the attributes and the quality of the wine.  We created pairwise scatterplots which give us a visual idea of what the data looks like.  We ran a lack of fit test to make sure our regression model fits. We ran Pearson's/Spearman's Correlation Coefficient
 
-**-If so, which physiochemical attributes significantlty affect quality?**
+### Which physiochemical attributes
 
 We performed t-tests on each predictor to determine which, if any, significantly affect quality.
 
-**-Is there an interaction between citric acid and volatile acidity for red wines as it affects quality?**
+## Citric acid and volatile acidity interaction
 
 We created a regression model to detrmine if there is an interaction between citric acid and volatile acidity. 
-
-All tests are run at the $95\%$ confidence level unless otherwise noted
 
 <!--
 I feel like this is a better break down of the methods section, but am open to suggestions/comments.  Please let me know what you think.
@@ -154,16 +146,16 @@ Describe the data (1st paragraph) as well as analysis results (order of results 
 
 ### Description of Data
 <!--Adrienne stuck the introduction here as a description of data, becuase she feels that this is maybe better used as a description of data, rather than an introduction.  Maybe we can write the introduction at the end, when we are finished.  It's what I do sometimes... When I know what the rest of the paper looks like.  I feel like this is a strong descripton of data.  I'm not sure what else to write here other than this.
--->
 
+CME: Can we report on mean/median/sd/range/IQR for quality and each of the attributes for red, white, and combined?
+-->
 
 This project will be comparing different physiochemical and sensory elements of wine. The wine in this data set are Vinho Verde wines, which comes from Minho region of Portugal. The data was collected between May 2004 and February 2007 and includes 1599 red wine samples and 4898 white wine samples. Wine testing is important to both sellers and consumers. By testing wine samples, vineyards are able to ensure that their wines are safe for consumers and that the taste of each type of wine stays consistent. It is even used to help set pricing scales. 
 
 This study looked at 11 different physicochemical variables: fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, and alcohol content. This data also contains a sensory score variable called “quality.” Each wine sample was tasted by at least 3 judges, each of whom scored the wine from 0 (very bad) to 10 (excellent). The quality variable was the median of the scores. 
 
 
-### Hypothesis 1
-
+### Variances of quality
 
 ``` {r , include=FALSE}
 wine_quality_var.f <- var.test(wine_red$quality, wine_white$quality, alternative = "t", conf.level = 0.95, ratio = 1)
@@ -171,7 +163,7 @@ wine_quality_var.f <- var.test(wine_red$quality, wine_white$quality, alternative
 
 The variability of the quality scores of red and white wines is significantly different ($`r p.value.string(wine_quality_var.f$p.value)`$) at the $\alpha = .05$ level.
 
-### Hypothesis 2
+### Mean quality
 
 ``` {r, include=FALSE}
 wine_anova <- aov(quality ~ type, data = wine)
@@ -190,9 +182,7 @@ plot_anova_assumptions <- function(aov.results){
 plot_anova_assumptions(wine_anova)
 ```
 
-
 The mean quality scores of red and white wines is significantly different ($`r p.value.string(wine_anova_table[[1]][["Pr(>F)"]][1])`$) at the $\alpha = .05$ level.
-<br>
 
 <!--Can we run additional tests to see which had higher quality?  Because this would totally be my follow-up question 
 ANOVA is for more than two population means.  Here, we only have two.  We should be able to run t-test for independent samples, and then run =, <, >.  This should give us a much better picture of the quality of the wine. 
@@ -233,33 +223,17 @@ winequal2
 
 From these t-tests, we can conclude that the mean qualities of red wine and white wine are significantly different.  There is also enough evidence to suggest that the mean quality of red wine is less than the mean quality of white wine.  We should run further tests to see what physiochemical properties affect the quality of wine.  We could even see what properties white wine has more or less of compared to red wine. 
 
-
-
-### Hypothesis 3
+### Physiochemical attributes and quality
 
 ``` {r}
 h3_model <- lm(quality ~ fixed.acidity + volatile.acidity + citric.acid + residual.sugar + chlorides + free.sulfur.dioxide + total.sulfur.dioxide + density + pH + sulphates + alcohol, data=wine)
 h3_anova <- Anova(h3_model, type = 3, digits = 3)
-h3_coef <- coefficients(h3_model)
-h3_beta0 <- h3_coef[[1]]
-h3_beta1 <- h3_coef[[2]]
-h3_beta2 <- h3_coef[[3]]
-h3_ci <- as_tibble(confint(h3_model, level=0.95))
-h3_beta1_ci <- h3_ci[2,]
-h3_beta2_ci <- h3_ci[3,]
-h3_model_F <- h3_anova$"F value"[1]
-h3_model_p <- h3_anova$"Pr(>F)"[1]
 h3_summary <- summary(h3_model)
-h3_t <- as_tibble(h3_summary[[4]])
-h3_t1 <- h3_t$"t value"[[2]]
-h3_t2 <- h3_t$"t value"[[3]]
-h3_p1 <- h3_t$"Pr(>|t|)"[[2]]
-h3_p2 <- h3_t$"Pr(>|t|)"[[3]]
 
 h3_anova
 ```
 
-### Hypothesis 4
+### Which physiochemical attributes
 
 ```{r}
 wineal <- t.test(wine_red$alcohol, wine_white$alcohol, var.equal = FALSE)
@@ -479,8 +453,7 @@ There is a statistically significant difference between red and white wine in al
 
 Visually speaking, there is possibly only a relationship in sulphates, 
 
-
-### Hypothesis 5 
+### Citric acid and volatile acidity
 
 ```{r}
 wine_red_results <- aov(quality ~ citric.acid*volatile.acidity, data = wine_red )
