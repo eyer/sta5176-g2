@@ -51,6 +51,7 @@ library(stats)
 library(BSDA)
 library(pander)
 library(alr3)
+library(knitr)
 
 p.value.string = function(p.value, symbol = "="){
   p.value <- round(p.value, digits = 4)
@@ -230,7 +231,23 @@ h3_model <- lm(quality ~ fixed.acidity + volatile.acidity + citric.acid + residu
 h3_anova <- Anova(h3_model, type = 3, digits = 3)
 h3_summary <- summary(h3_model)
 
-h3_anova
+## Formatting ANOVA table...
+h3_anova <- h3_anova[-c(1),] # Remove intercept row
+h3_anova$MS <- h3_anova[,1]/h3_anova[,2] # Add column for mean sum of squares
+h3_total_row <- apply(h3_anova, 2, sum) # Create "Total" row
+h3_total_row.MS <- NA # Set mean sum of squares on "Total" row to NA
+h3_anova <- rbind(h3_anova,h3_total_row) # Add "Total" row to bottom of ANOVA table
+h3_anova <- cbind(h3_anova[c(1,2,5,3,4)]) # Reorder columns of ANOVA table
+h3_anova$`Pr(>F)` <- ifelse(h3_anova$`Pr(>F)` < .0001, "< 0.0001", format(round(h3_anova$`Pr(>F)`, digits = 4), nsmall = 4)) # Change display of p values so they aren't rounded to zero
+colnames(h3_anova) <- c("SS", "df", "MS", "$F$", "$p$") # Set readable column headings for ANOVA table
+rownames(h3_anova) <- c("Fixed acidity", "Volatile acidity", "Citric acid", "Residual sugar", "Chlorides", "Free sulfur dioxide", "Total sulfur dioxide", "Density", "pH", "Sulphates", "Alcohol", "Error", "Total") # Set readable row headings for ANOVA table
+options(knitr.kable.NA = '') # this will hide missing values in the kable table
+```
+
+The multivariable ANOVA test shows that wine quality scores are significantly affected by fixed acidity, volatily acidite, residual sugar, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, and alcohol. Quality scores are not dependent on citric acid or chlorides.
+
+``` {r}
+kable(h3_anova, digits = 3, format = "pandoc", caption = "ANOVA table", align=c('l', rep('r', 5))) # Output ANOVA table
 ```
 
 ### Which physiochemical attributes
