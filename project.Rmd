@@ -25,7 +25,7 @@ Jovan Burgos:
 Created a code for an assortment of tests. Created idea of having wine quality for data set.Gave results for test three, four, and five
 
 Adrienne Eddy:
-Completed the methods section. Gave results for test three, four, and five
+Completed the methods section. Worked on introduction. Worked on hypothesis 5, created idea for hypothesis six. worked on code for tests for hypothesis two, six. Gave results for test three, four and six. 
 
 
 Chad Michael Eyer:
@@ -92,6 +92,7 @@ This project answers the following research questions:
 - Do physiochemical attributes significantlty affect quality?
 - If so which physiochemical attributes significantlty affect quality?
 - Is there an interaction between citric acid and volatile acidity for red wines?
+- What physiochemical attribute differences might lead to better quality?
 
 <!--Adrienne read that citric acid can lead to volatile acidity.  Why don't we look for an interaction between citric acid and volatile acidity as its metabolism affects quality?
 https://morewinemaking.com/products/citric-acid.html
@@ -126,7 +127,7 @@ Independent t will also allow us to test all directions, =, <, >... which will g
 In ANOVA, our only null and alternative is "they are all equal or one is different", then we do post hoc to tell us which is different.  This still doesn't give us direction.  Since we only have two, I feel like t is a better choice, because we can get directionality out of it.  t, with unequal variances.  I set up the test, but am having some difficutly with getting the code to work outside the test... In paragraph form.  I can look at results in a window, so I know how how the test went and what the p-value and t-vales are, but can't call them when I write the paragraph.  
 -->
 
-### Physiochemical attributes and quality
+### Physiochemical attributes affecting quality
 
 We used multivariable regression because this allows us to create a model that will show if there is any relationship between any of the attributes and the quality of the wine.  We created pairwise scatterplots which give us a visual idea of what the data looks like.  We ran a lack of fit test to make sure our regression model fits. We ran Pearson's/Spearman's Correlation Coefficient
 
@@ -137,6 +138,10 @@ We performed t-tests on each predictor to determine which, if any, significantly
 ## Citric acid and volatile acidity interaction
 
 We created a regression model to detrmine if there is an interaction between citric acid and volatile acidity. 
+
+### Physiochemical attributes potentially improving quality
+
+We ran t-tests to compare physiochemical attributes between red and white wine to determine the kind of difference.
 
 <!--
 I feel like this is a better break down of the methods section, but am open to suggestions/comments.  Please let me know what you think.
@@ -183,7 +188,7 @@ plot_anova_assumptions <- function(aov.results){
 plot_anova_assumptions(wine_anova)
 ```
 
-The mean quality scores of red and white wines is significantly different ($`r p.value.string(wine_anova_table[[1]][["Pr(>F)"]][1])`$) at the $\alpha = .05$ level.
+
 
 <!--Can we run additional tests to see which had higher quality?  Because this would totally be my follow-up question 
 ANOVA is for more than two population means.  Here, we only have two.  We should be able to run t-test for independent samples, and then run =, <, >.  This should give us a much better picture of the quality of the wine. 
@@ -203,8 +208,7 @@ h0: red<white
 h1:red ge white
 -->
 
-* $t = `r winequal.t`$
-* $`r p.value.string(winequal.p)`$
+
 
 <!--
 Help!  I cannot get this code to read correctly.  I don't know what I'm doing wrong.  It should call the test I just created, but it won't.  The test runs fine, and creates statistics and a p-value which is helpful, but I can't type out code for writing results
@@ -222,8 +226,7 @@ winequal2
 ```
 
 
-From these t-tests, we can conclude that the mean qualities of red wine and white wine are significantly different.  There is also enough evidence to suggest that the mean quality of red wine is less than the mean quality of white wine.  We should run further tests to see what physiochemical properties affect the quality of wine.  We could even see what properties white wine has more or less of compared to red wine. 
-
+The mean quality scores of red and white wines is significantly different ($`r p.value.string(wine_anova_table[[1]][["Pr(>F)"]][1])`$) at the $\alpha = .05$ level.  This may make a person wonder, "How do they differ? Is white wine of better quality or is red wine of better quality?" So we ran a few *t*-tests to help us determine the relationship of the mean quality of wine. We found that the quality of red wine is not greater than that of white wine ($`r p.value.string(winequal1$p.value[1])`$).  We did find sufficient evidence to suggest that the mean quality of red wine is less than the quality of white wine at the $\alpha=0.05$ level ($`r p.value.string(winequal2$p.value[1])`$). We should run further tests to see what physiochemical properties affect the quality of wine.  We could even see what properties white wine has more or less of compared to red wine. 
 ### Physiochemical attributes and quality
 
 ``` {r}
@@ -242,16 +245,19 @@ h3_anova$`Pr(>F)` <- ifelse(h3_anova$`Pr(>F)` < .0001, "< 0.0001", format(round(
 colnames(h3_anova) <- c("SS", "df", "MS", "$F$", "$p$") # Set readable column headings for ANOVA table
 rownames(h3_anova) <- c("Fixed acidity", "Volatile acidity", "Citric acid", "Residual sugar", "Chlorides", "Free sulfur dioxide", "Total sulfur dioxide", "Density", "pH", "Sulphates", "Alcohol", "Error", "Total") # Set readable row headings for ANOVA table
 options(knitr.kable.NA = '') # this will hide missing values in the kable table
+h3_anova
 ```
 
-The multivariable ANOVA test shows that wine quality scores are significantly affected by fixed acidity, volatily acidite, residual sugar, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, and alcohol. Quality scores are not dependent on citric acid or chlorides.
+
 
 ``` {r}
 kable(h3_anova, digits = 3, format = "pandoc", caption = "ANOVA table", align=c('l', rep('r', 5))) # Output ANOVA table
 ```
 
-### Which physiochemical attributes
+Several physiochemical properties play a significant role in affecting quality of wine at the $\alpha=0.05$ level.
 
+### Which physiochemical attributes
+<!--
 ```{r}
 wineal <- t.test(wine_red$alcohol, wine_white$alcohol, var.equal = FALSE)
 wineal
@@ -464,11 +470,10 @@ We can say there is a possible relationship between quality and sulphates--a neg
 ```{r}
 pairs(~sulphates+total.sulfur.dioxide+chlorides+citric.acid+pH+volatile.acidity+residual.sugar+fixed.acidity+density+alcohol, data=wine)
 ```
+-->
 
-#### Interpretation of visual analysis for regression
-There is a statistically significant difference between red and white wine in all of the physiochemical factors that make up wine. 
-
-Visually speaking, there is possibly only a relationship in sulphates, 
+The multivariable ANOVA test shows that wine quality scores are significantly affected by fixed acidity, volatily acidity, residual sugar, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, and alcohol. Quality scores are not dependent on citric acid or chlorides.
+Knowing that these are all significant predictors of quality, it would be interesting to see whether white wine had more or less of these properties.
 
 ### Citric acid and volatile acidity
 
@@ -479,6 +484,9 @@ wine_red_table <- summary(wine_red_results)
 
 pander(wine_red_table, style='rmarkdown') 
 ```
+
+Winemakers use citric acid to sterilize equipment between batches. Citric acid is also found in fruitier wines.  However, citric acid can contribute to volatile acidity which leads to wine spoilage. Even though citric acid is not a significant predictor, we want to look to see if there is an interaction between citric acid and volatile acidity.
+
 
 
 <!--
@@ -506,15 +514,251 @@ Reject if $p < \alpha$, where $\alpha=0.05$.
 
 There is sufficient evidence to suggest that there is an interaction between citric acid and volatile acidity because $`r p.value.string(wine_red_table[[1]][["Pr(>F)"]][3])`$.
 
+### Hypothesis 6
 
+```{r, include= FALSE}
+wine_fxacid_var.f <- var.test(wine_red$fixed.acidity, wine_white$fixed.acidity, alternative = "t", conf.level = 0.95, ratio = 1)
 
+compare1 <- t.test(wine_white$fixed.acidity, wine_red$fixed.acidity, var.equal = FALSE, alternative = "less")
+y <- as.data.frame(wine_red$fixed.acidity)
+p1 <- ggplot(y, aes(sample = wine_red$fixed.acidity))
+p1 <- p1 + 
+        stat_qq() + 
+        stat_qq_line() +
+  labs(title="qq plot wine_red$fixed.acidity")+
+        theme_bw()
 
+p1
 
-## Session Info
+y <- as.data.frame(wine_white$fixed.acidity)
+p2 <- ggplot(y, aes(sample = wine_white$fixed.acidity))
+p2 <- p2 + 
+        stat_qq() + 
+        stat_qq_line() +
+  labs(title="qq plot wine_white$fixed.acidity")+
+        theme_bw()
 
-```{r sessionInfo, include=TRUE, echo=TRUE, results='markup'}
-sessionInfo()
+p2
 ```
+
+```{r, include= FALSE}
+wine_volacid_var.f <- var.test(wine_red$volatile.acidity, wine_white$volatile.acidity, alternative = "t", conf.level = 0.95, ratio = 1)
+
+compare2 <- t.test(wine_white$volatile.acidity, wine_red$volatile.acidity, var.equal = FALSE, alternative = "less")
+
+y <- as.data.frame(wine_red$volatile.acidity)
+p3 <- ggplot(y, aes(sample = wine_red$volatile.acidity))
+p3 <- p3 + 
+        stat_qq() + 
+        stat_qq_line() +
+  labs(title="qq plot wine_red$volatile.acidity")+
+        theme_bw()
+
+p3
+
+y <- as.data.frame(wine_white$volatile.acidity)
+p4 <- ggplot(y, aes(sample = wine_white$volatile.acidity))
+p4 <- p4 + 
+        stat_qq() + 
+        stat_qq_line() +
+  labs(title="qq plot wine_white$volatile.acidity")+
+        theme_bw()
+
+p4
+```
+
+```{r, include= FALSE}
+wine_resug_var.f <- var.test(wine_red$residual.sugar, wine_white$residual.sugar, alternative = "t", conf.level = 0.95, ratio = 1)
+
+compare3 <- t.test(wine_white$residual.sugar, wine_red$residual.sugar, var.equal = FALSE, alternative = "greater")
+
+y <- as.data.frame(wine_red$residual.sugar)
+p5 <- ggplot(y, aes(sample = wine_red$residual.sugar))
+p5 <- p5 + 
+        stat_qq() + 
+        stat_qq_line() +
+  labs(title="qq plot wine_red$residual.sugar")+
+        theme_bw()
+
+p5
+
+y <- as.data.frame(wine_white$residual.sugar)
+p6 <- ggplot(y, aes(sample = wine_white$residual.sugar))
+p6 <- p6 + 
+        stat_qq() + 
+        stat_qq_line() +
+  labs(title="qq plot wine_white$residual.sugar")+
+        theme_bw()
+
+p6
+```
+
+```{r, include= FALSE}
+wine_fsudi_var.f <- var.test(wine_red$free.sulfur.dioxide, wine_white$free.sulfur.dioxide, alternative = "t", conf.level = 0.95, ratio = 1)
+
+compare4 <- t.test(wine_white$free.sulfur.dioxide, wine_red$free.sulfur.dioxide, var.equal = FALSE, alternative = "greater")
+
+
+y <- as.data.frame(wine_red$free.sulfur.dioxide)
+p7 <- ggplot(y, aes(sample = wine_red$free.sulfur.dioxide))
+p7 <- p7 + 
+        stat_qq() + 
+        stat_qq_line() +
+  labs(title="qq plot wine_red$free.sulfur.dioxide")+
+        theme_bw()
+
+p7
+
+y <- as.data.frame(wine_white$free.sulfur.dioxide)
+p8 <- ggplot(y, aes(sample = wine_white$free.sulfur.dioxide))
+p8 <- p8 + 
+        stat_qq() + 
+        stat_qq_line() +
+  labs(title="qq plot wine_white$free.sulfur.dioxide")+
+        theme_bw()
+
+p8
+```
+
+```{r, include= FALSE}
+wine_tsudi_var.f <- var.test(wine_red$total.sulfur.dioxide, wine_white$total.sulfur.dioxide, alternative = "t", conf.level = 0.95, ratio = 1)
+
+compare5 <- t.test(wine_white$total.sulfur.dioxide, wine_red$total.sulfur.dioxide, var.equal = FALSE, alternative = "greater")
+
+
+y <- as.data.frame(wine_red$total.sulfur.dioxide)
+p9 <- ggplot(y, aes(sample = wine_red$total.sulfur.dioxide))
+p9 <- p9 + 
+        stat_qq() + 
+        stat_qq_line() +
+  labs(title="qq plot wine_red$free.total.sulfur.dioxide")+
+        theme_bw()
+
+p9
+
+y <- as.data.frame(wine_white$total.sulfur.dioxide)
+p10 <- ggplot(y, aes(sample = wine_white$total.sulfur.dioxide))
+p10 <- p10 + 
+        stat_qq() + 
+        stat_qq_line() +
+  labs(title="qq plot wine_white$total.sulfur.dioxide")+
+        theme_bw()
+
+p10
+```
+
+```{r, include= FALSE}
+wine_dens_var.f <- var.test(wine_red$density, wine_white$density, alternative = "t", conf.level = 0.95, ratio = 1)
+
+compare6 <- t.test(wine_white$density, wine_red$density, var.equal = FALSE, alternative = "less")
+
+
+y <- as.data.frame(wine_red$density)
+p11 <- ggplot(y, aes(sample = wine_red$density))
+p11<- p11 + 
+        stat_qq() + 
+        stat_qq_line() +
+  labs(title="qq plot wine_red$density")+
+        theme_bw()
+
+p11
+
+y <- as.data.frame(wine_white$total.sulfur.dioxide)
+p12 <- ggplot(y, aes(sample = wine_white$density))
+p12 <- p12 + 
+        stat_qq() + 
+        stat_qq_line() +
+  labs(title="qq plot wine_white$total.density")+
+        theme_bw()
+
+p12
+```
+
+```{r, include= FALSE}
+wine_ph_var.f <- var.test(wine_red$pH, wine_white$pH, alternative = "t", conf.level = 0.95, ratio = 1)
+
+compare7 <- t.test(wine_white$pH, wine_red$pH, var.equal = TRUE, alternative = "less")
+
+y <- as.data.frame(wine_red$pH)
+p13 <- ggplot(y, aes(sample = wine_red$pH))
+p13<- p13 + 
+        stat_qq() + 
+        stat_qq_line() +
+  labs(title="qq plot wine_red$pH")+
+        theme_bw()
+
+p13
+
+y <- as.data.frame(wine_white$pH)
+p13 <- ggplot(y, aes(sample = wine_white$pH))
+p13 <- p13 + 
+        stat_qq() + 
+        stat_qq_line() +
+  labs(title="qq plot wine_white$total.pH")+
+        theme_bw()
+
+p13
+```
+
+```{r, include= FALSE}
+wine_sulp_var.f <- var.test(wine_red$sulphates, wine_white$sulphates, alternative = "t", conf.level = 0.95, ratio = 1)
+
+compare8 <- t.test(wine_white$sulphates, wine_red$sulphates, var.equal = FALSE, alternative = "less")
+
+y <- as.data.frame(wine_red$sulphates)
+p13 <- ggplot(y, aes(sample = wine_red$sulphates))
+p13<- p13 + 
+        stat_qq() + 
+        stat_qq_line() +
+  labs(title="qq plot wine_red$sulphates")+
+        theme_bw()
+
+p13
+
+y <- as.data.frame(wine_white$sulphates)
+p13 <- ggplot(y, aes(sample = wine_white$sulphates))
+p13 <- p13 + 
+        stat_qq() + 
+        stat_qq_line() +
+  labs(title="qq plot wine_white$total.sulphates")+
+        theme_bw()
+
+p13
+```
+
+```{r, include= FALSE}
+wine_alc_var.f <- var.test(wine_red$alcohol, wine_white$alcohol, alternative = "t", conf.level = 0.95, ratio = 1)
+
+compare8 <- t.test(wine_white$alcohol, wine_red$alcohol, var.equal = FALSE, alternative = "greater")
+compare8
+y <- as.data.frame(wine_red$alcohol)
+p15 <- ggplot(y, aes(sample = wine_red$alcohol))
+p15<- p15 + 
+        stat_qq() + 
+        stat_qq_line() +
+  labs(title="qq plot wine_red$alcohol")+
+        theme_bw()
+
+
+
+y <- as.data.frame(wine_white$alcohol)
+p16 <- ggplot(y, aes(sample = wine_white$alcohol))
+p16 <- p16 + 
+        stat_qq() + 
+        stat_qq_line() +
+  labs(title="qq plot wine_white$total.alcohol")+
+        theme_bw()
+
+
+```
+
+
+
+White wine has less fixed acidity, less volatile acidity (spoilage), more residual sugar, greater free sulfur dioxide, greater total sulfur dioxide, less dense, lower pH, fewer sulphates, and more alcohol.
+
+
+
+
 
 ## Conclusion
 
@@ -522,6 +766,11 @@ Restate the results in terms of the larger picture; state limitations and opport
 
 ## Reference
 
+## Session Info
+
+```{r sessionInfo, include=TRUE, echo=TRUE, results='markup'}
+sessionInfo()
+```
 <!--
 ### Chad and Tyler's initial work
 
