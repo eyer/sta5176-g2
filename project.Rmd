@@ -88,8 +88,8 @@ This project answers the following research questions:
 
 - Are variances of quality of red wines equal to variances of quality of white wines?
 - Are mean quality of red wines equal to mean quality of white wines?
-- Do physiochemical attributes significantlty affect quality?
-- If so which physiochemical attributes significantlty affect quality?
+- Do physiochemical attributes significantly affect quality?
+- If so which physiochemical attributes significantly affect quality?
 - Is there an interaction between citric acid and volatile acidity for red wines?
 - What physiochemical attribute differences might lead to better quality?
 
@@ -134,7 +134,7 @@ We used multivariable regression because this allows us to create a model that w
 
 We performed t-tests on each predictor to determine which, if any, significantly affect quality.
 
-## Citric acid and volatile acidity interaction
+### Citric acid and volatile acidity interaction
 
 We created a regression model to detrmine if there is an interaction between citric acid and volatile acidity. 
 
@@ -142,16 +142,12 @@ We created a regression model to detrmine if there is an interaction between cit
 
 We ran t-tests to compare physiochemical attributes between red and white wine to determine the kind of difference.
 
-<!--
-I feel like this is a better break down of the methods section, but am open to suggestions/comments.  Please let me know what you think.
--->
 
 ## Results
 Describe the data (1st paragraph) as well as analysis results (order of results should correspond to hypotheses listed).  (20 points)
 
 ### Description of Data
-<!--Adrienne stuck the introduction here as a description of data, becuase she feels that this is maybe better used as a description of data, rather than an introduction.  Maybe we can write the introduction at the end, when we are finished.  It's what I do sometimes... When I know what the rest of the paper looks like.  I feel like this is a strong descripton of data.  I'm not sure what else to write here other than this.
-
+<!--
 CME: Can we report on mean/median/sd/range/IQR for quality and each of the attributes for red, white, and combined?
 -->
 
@@ -468,41 +464,22 @@ p16 <- p16 +
         theme_bw()
 ```
 
-The first research question was if the variance of quality was the same for both red and white wines. There is sufficent evidence to suggest that the variability of the quality scores of red and white wines is significantly different, with ($`r p.value.string(wine_quality_var.f$p.value)`$) at the $\alpha = .05$ level. Because there is a difference in variablity, it impacted which tests were run in the following hypotheses. 
+The first research question asked if the variance of quality was the same for both red and white wines. There is sufficent evidence to suggest that the variability of the quality scores of red and white wines is significantly different, with ($`r p.value.string(wine_quality_var.f$p.value)`$) at the $\alpha = .05$ level. Because there is a difference in variablity, it impacted which tests were run in the following hypothes tests. 
 
 
-The next research question was to determine in the mean quality of the two types of wines were different. There is sufficent evidence to suggest that the mean quality is different, with ($`r p.value.string(wine_anova_table[[1]][["Pr(>F)"]][1])`$) at the $\alpha = .05$ level. 
+The next research question was to determine if the mean quality of the two types of wines were different. There is sufficent evidence to suggest that the mean quality is different, with ($`r p.value.string(wine_anova_table[[1]][["Pr(>F)"]][1])`$) at the $\alpha = .05$ level. 
 
 The natural follow-up question is, "Which wine has a greater mean quality" From several t-tests, it was determined that there is sufficient evidence to suggest that the mean quality of red wine is less than the mean quality of white wine at the $\alpha=0.05$ level ($`r p.value.string(winequal2$p.value[1])`$). 
 
-The next research question wsa to see what physiochemical properties affect the quality of wine and which properties white wine has more or less of compared to red wine. 
+The next research question was to see if physiochemical properties affect the quality of wine. The multivariable ANOVA test shows that there is sufficent evidence to suggest that wine quality scores are significantly affected by fixed acidity, volatily acidity, residual sugar, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, and alcohol. Quality scores are not dependent on citric acid or chlorides.
 
-Several physiochemical properties play a significant role in affecting quality of wine at the $\alpha=0.05$ level.
-
-The multivariable ANOVA test shows that wine quality scores are significantly affected by fixed acidity, volatily acidity, residual sugar, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, and alcohol. Quality scores are not dependent on citric acid or chlorides.
-Knowing that these are all significant predictors of quality, it would be interesting to see whether white wine had more or less of these properties.
+Winemakers use citric acid to sterilize equipment between batches, and it is found in fruitier wines.  However, citric acid can contribute to volatile acidity which leads to wine spoilage. Even though citric acid is not a significant predictor of quality, we want to see if there is an interaction between citric acid and volatile acidity.There is sufficient evidence to suggest that there is an interaction between citric acid and volatile acidity because $`r p.value.string(wine_red_table[[1]][["Pr(>F)"]][3])`$.
 
 
-Winemakers use citric acid to sterilize equipment between batches. Citric acid is also found in fruitier wines.  However, citric acid can contribute to volatile acidity which leads to wine spoilage. Even though citric acid is not a significant predictor, we want to look to see if there is an interaction between citric acid and volatile acidity.
-
-
-$`r p.value.string(wine_red_table[[1]][["Pr(>F)"]][3])`$.
-
-
-There is sufficient evidence to suggest that there is an interaction between citric acid and volatile acidity because $`r p.value.string(wine_red_table[[1]][["Pr(>F)"]][3])`$.
-
-
-
-
-White wine has less fixed acidity, less volatile acidity (spoilage), more residual sugar, greater free sulfur dioxide, greater total sulfur dioxide, less dense, lower pH, fewer sulphates, and more alcohol.
-
-
-
+Knowing that all the physicochemical properties except for citric acid or chlorides these are all significant predictors of quality and that white wine has the higher quality, the last research question was to see how the physicochemical composition differs between white and red wines. There is sufficent evidence to suggest that white wine has less fixed acidity, less volatile acidity (spoilage), more residual sugar, greater free sulfur dioxide, greater total sulfur dioxide, less dense, lower pH, fewer sulphates, and more alcohol.
 
 
 ## Conclusion
-
-Restate the results in terms of the larger picture; state limitations and opportunities for future research (20 points)
 
 This study of Portuguese wines shows that winemaking is both an art and a science. As vineyards strive to develop better tasting wines, they need to consider the physicochemical make-up of their product. The study found that the physicochemical properties of wine play an important part in the quality. Out of the eleven physiochemical properties studied, all but two, citric acid and chlorides, significantly predicted the quality of the wine. The data from this study showed that the white wine quality was better than red wine quality. When we looked at how the red and white wines differed in physicochemical properties, we found that white wine has less fixed acidity, less volatile acidity (spoilage), more residual sugar, greater free sulfur dioxide, greater total sulfur dioxide, less dense, lower pH, fewer sulphates, and more alcohol. Another notable find is that these physicochemical properties don’t just impact the quality of the wines--they also impact each other, as seen by the interaction between citric acid and volatile acidity.  These are important concepts to keep in mind for large vineyards all the way to those who want to try making their own wine at home.
  
