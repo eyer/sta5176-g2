@@ -764,6 +764,11 @@ White wine has less fixed acidity, less volatile acidity (spoilage), more residu
 
 Restate the results in terms of the larger picture; state limitations and opportunities for future research (20 points)
 
+This study of Portuguese wines shows that winemaking is both an art and a science. As vineyards strive to develop better tasting wines, they need to consider the physicochemical make-up of their product. The study found that the physicochemical properties of wine play an important part in the taste. Out of the eleven physiochemical properties studied, all but two, citric acid and chlorides, significantly predicted the quality of the wine. The data from this study showed that white wine tastes better than red wines. When we looked at how the red and white wines differed in physicochemical properties, we found that white wine has less fixed acidity, less volatile acidity (spoilage), more residual sugar, greater free sulfur dioxide, greater total sulfur dioxide, less dense, lower pH, fewer sulphates, and more alcohol. Another notable find is that these physicochemical properties don’t just impact the taste of the wines--they also impact each other, as seen by the interaction between citric acid and volatile acidity.  These are important concepts to keep in mind for large vineyards all the way to those who want to try making their own wine at home.
+ 
+One of limitations of this study was that all the wine was from the same region of Portugal. Another limitation was that the quality variable was based on a score of small groups of judges--only 3 judges in some cases. Future studies could be done to include wines from different parts of the globe and to include a larger panel of judges.
+ 
+
 ## Reference
 
 ## Session Info
