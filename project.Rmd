@@ -32,7 +32,7 @@ Chad Michael Eyer:
 Created and trained on GitHub. Hosted virtual meeting. Created hypotheses. Completed test for hypotheses one, two, and three. Found concrete data set
 
 Valorie Myer:
-Created group chat for the group. Completed introduction. Hosted virtual meeting. Results section.
+Created group chat for the group. Completed introduction. Hosted virtual meeting. Wrote conclusions section. Rewrote results as a paragraph.
 
 
 Tyler Watson:
@@ -74,9 +74,10 @@ wine <- cbind(type, wine) # add category column
 
 ## Introduction
 
-This project will be comparing different physiochemical and sensory elements of wine. Wine is made up of a variety of kinds of chemicals which can affect our bodies and the quality. Alcohol has the effect of lowering inhibitions, among others.  Sulfer dioxide is a preservative, which means that bottle of '92 Bordeaux won't kill you. Sulphates are a completely different compound. Sulphates are anti-inflamitory, and anti-depressant, which means we can drink wine and claim it's good for our health! 
+Wine testing is important to both sellers and consumers. By testing wine samples, vineyards are able to ensure that their wines are safe for consumers, and that the taste of each type of wine stays consistent. It is even used to help set pricing scales. This project will be comparing different physiochemical (chemical properties) and sensory elements of wine in order to see what elements impact quality.
 
-We compare and test different physiochemical and sensory elements of wine and compare them to the qualitiy of said wines.  We want to know what elements of wine make for good quality wine. For example, volatile acidity is how wine spoilage is measured.  Typically wine makers attempt to keep volatile acidity to a minimum to improve the quality of wine. Residual sugar is sugar left after the fermentation process, adding to the sweetness of the wine. Chlorides in wine affect the saltiness taste in wines. If a wine is too salty, it may not be tasty. Citric acid keeps a wine tasting fresh, while imparting a slight citric taste to the wine.
+The chemicals composition of wine can impact both the quality of the wine and our bodies. This study will be looking at 11 different physiochemical properties: fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, and alcohol content. We will specifically look to see if there is an interaction between volatile acidity and citric acidity. Volatile acidity is how wine spoilage is measured. Typically, wine makers attempt to keep volatile acidity to a minimum to improve the quality of wine. Citric acid keeps wine tasting fresh, while imparting a slight citric taste to the wine.
+
 
 
  
@@ -154,22 +155,17 @@ Describe the data (1st paragraph) as well as analysis results (order of results 
 CME: Can we report on mean/median/sd/range/IQR for quality and each of the attributes for red, white, and combined?
 -->
 
-This project will be comparing different physiochemical and sensory elements of wine. The wine in this data set are Vinho Verde wines, which comes from Minho region of Portugal. The data was collected between May 2004 and February 2007 and includes 1599 red wine samples and 4898 white wine samples. Wine testing is important to both sellers and consumers. By testing wine samples, vineyards are able to ensure that their wines are safe for consumers and that the taste of each type of wine stays consistent. It is even used to help set pricing scales. 
+This project will be comparing different physiochemical and sensory elements of wine. The wine in this data set are Vinho Verde wines, which comes from Minho region of Portugal. The data was collected between May 2004 and February 2007 and includes 1599 red wine samples and 4898 white wine samples.  
 
 This study looked at 11 different physicochemical variables: fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, and alcohol content. This data also contains a sensory score variable called “quality.” Each wine sample was tasted by at least 3 judges, each of whom scored the wine from 0 (very bad) to 10 (excellent). The quality variable was the median of the scores. 
 
 
-### Variances of quality
-
 ``` {r , include=FALSE}
+###Variance (Hypothesis 1)
+
 wine_quality_var.f <- var.test(wine_red$quality, wine_white$quality, alternative = "t", conf.level = 0.95, ratio = 1)
-```
 
-The variability of the quality scores of red and white wines is significantly different ($`r p.value.string(wine_quality_var.f$p.value)`$) at the $\alpha = .05$ level.
 
-### Mean quality
-
-``` {r, include=FALSE}
 wine_anova <- aov(quality ~ type, data = wine)
 wine_anova_table <- summary(wine_anova)
 wine_anova_table
@@ -184,48 +180,23 @@ plot_anova_assumptions <- function(aov.results){
 }
 
 plot_anova_assumptions(wine_anova)
-```
 
 
-
-<!--Can we run additional tests to see which had higher quality?  Because this would totally be my follow-up question 
-ANOVA is for more than two population means.  Here, we only have two.  We should be able to run t-test for independent samples, and then run =, <, >.  This should give us a much better picture of the quality of the wine. 
--->
-
-```{r, include=FALSE}
 winequal <- t.test(wine_red$quality, wine_white$quality, var.equal = FALSE)
 winequal
 winequal.t <- winequal$statistic[1]
 winequal.t
 winequal.p <- winequal$p.value[1]
 winequal.p
-```
 
-<!--
-h0: red<white
-h1:red ge white
--->
-
-
-
-<!--
-Help!  I cannot get this code to read correctly.  I don't know what I'm doing wrong.  It should call the test I just created, but it won't.  The test runs fine, and creates statistics and a p-value which is helpful, but I can't type out code for writing results
-
-CME: I think I got it.
--->
-```{r, include=FALSE}
+###Mean Quality (Hypothesis 2)
 winequal1 <- t.test(wine_red$quality, wine_white$quality, var.equal = FALSE, alternative = "greater")
 winequal1
-```
 
-```{r, include=FALSE}
 winequal2 <- t.test(wine_red$quality, wine_white$quality, var.equal = FALSE, alternative = "less")
 winequal2
-```
 
-
-The mean quality scores of red and white wines is significantly different ($`r p.value.string(wine_anova_table[[1]][["Pr(>F)"]][1])`$) at the $\alpha = .05$ level.  This may make a person wonder, "How do they differ? Is white wine of better quality or is red wine of better quality?" So we ran a few *t*-tests to help us determine the relationship of the mean quality of wine. We found that the quality of red wine is not greater than that of white wine ($`r p.value.string(winequal1$p.value[1])`$).  We did find sufficient evidence to suggest that the mean quality of red wine is less than the quality of white wine at the $\alpha=0.05$ level ($`r p.value.string(winequal2$p.value[1])`$). We should run further tests to see what physiochemical properties affect the quality of wine.  We could even see what properties white wine has more or less of compared to red wine. 
-### Physiochemical attributes and quality
+### Physiochemical attributes and quality (Hypothesis 3 and 4)
 
 ``` {r}
 h3_model <- lm(quality ~ fixed.acidity + volatile.acidity + citric.acid + residual.sugar + chlorides + free.sulfur.dioxide + total.sulfur.dioxide + density + pH + sulphates + alcohol, data=wine)
@@ -244,236 +215,16 @@ colnames(h3_anova) <- c("SS", "df", "MS", "$F$", "$p$") # Set readable column he
 rownames(h3_anova) <- c("Fixed acidity", "Volatile acidity", "Citric acid", "Residual sugar", "Chlorides", "Free sulfur dioxide", "Total sulfur dioxide", "Density", "pH", "Sulphates", "Alcohol", "Error", "Total") # Set readable row headings for ANOVA table
 options(knitr.kable.NA = '') # this will hide missing values in the kable table
 h3_anova
-```
 
-
-
-``` {r}
 kable(h3_anova, digits = 3, format = "pandoc", caption = "ANOVA table", align=c('l', rep('r', 5))) # Output ANOVA table
-```
-
-Several physiochemical properties play a significant role in affecting quality of wine at the $\alpha=0.05$ level.
-
-### Which physiochemical attributes
-<!--
-```{r}
-wineal <- t.test(wine_red$alcohol, wine_white$alcohol, var.equal = FALSE)
-wineal
-```
-```{r}
-wine %>% 
-  ggplot(aes(x=wine$alcohol, y=wine$quality
-            )) +
-    geom_point() +
-  labs(title="quality compared to alcohol content")+
-  xlab("alcohol")+
-  ylab("quality")+
-  theme_bw() 
-```
 
 
-```{r}
-wineden <- t.test(wine_red$density, wine_white$density, var.equal = FALSE)
-wineden
-
-```
-```{r}
-wine %>% 
-  ggplot(aes(x=wine$density, y=wine$quality
-            )) +
-    geom_point() +
-  labs(title="quality compared to density")+
-  xlab("density")+
-  ylab("quality")+
-  theme_bw() 
-```
-
-alcohol is different
-there is a slight relationship between alcohol and quality. there is a slight shift in the data stacks, which would predict a very very steep regression line. 
-
-```{r}
-wineden <- t.test(wine_red$density, wine_white$density, var.equal = FALSE)
-wineden
-
-```
-```{r}
-wine %>% 
-  ggplot(aes(x=wine$density, y=wine$quality
-            )) +
-    geom_point() +
-  labs(title="quality compared to density")+
-  xlab("density")+
-  ylab("quality")+
-  theme_bw() 
-```
-
-density is different
-There is a slight relationship between density and quality... there is a slight shift in the data stacks. We could predict a very very steep regression line. 
-
-```{r}
-winefa <- t.test(wine_red$fixed.acidity, wine_white$fixed.acidity, var.equal = FALSE)
-winefa
-
-```
-```{r}
-wine %>% 
-  ggplot(aes(x=wine$fixed.acidity, y=wine$quality
-            )) +
-    geom_point() +
-  labs(title="quality compared to fixed acidity")+
-  xlab("fixed acidity")+
-  ylab("quality")+
-  theme_bw() 
-```
-
-so, fixed acidity is different between wite and red, There appears to be a weak negative relationship between fixed acidity and quality.
-
-```{r}
-wineva <- t.test(wine_red$volatile.acidity, wine_white$volatile.acidity, var.equal = FALSE)
-wineva
-
-```
-```{r}
-wine %>% 
-  ggplot(aes(x=wine$volatile.acidity, y=wine$quality
-            )) +
-    geom_point() +
-  labs(title="quality compared to volatile acidity")+
-  xlab("volatile acidity")+
-  ylab("quality")+
-  theme_bw() 
-```
-
-The volatile acidity is different between red and white wine. There appears to be a weak negative relationship between volatile acidity and quality.
+### Which physiochemical attributes (Hypothesis 4 graph)
 
 
-
-```{r}
-wineca <- t.test(wine_red$citric.acid, wine_white$citric.acid, var.equal = FALSE)
-wineca
-
-```
-```{r}
-wine %>% 
-  ggplot(aes(x=wine$citric.acid, y=wine$quality
-            )) +
-    geom_point() +
-  labs(title="quality compared to citric acid")+
-  xlab("citric acid")+
-  ylab("quality")+
-  theme_bw() 
-```
-
-
-There is a difference in citric acid between the two, There appears to be a very weak relationship between citric acid and quality.  There are also a few outliers that might throw off any regression we would run.
-
-
-```{r}
-winers <- t.test(wine_red$residual.sugar, wine_white$residual.sugar, var.equal = FALSE)
-winers
-
-```
-```{r}
-wine %>% 
-  ggplot(aes(x=wine$residual.sugar, y=wine$quality
-            )) +
-    geom_point() +
-  labs(title="quality compared to residual sugar")+
-  xlab("residual sugar")+
-  ylab("quality")+
-  theme_bw() 
-```
-
-there is a very large and significant difference in residual sugar between red and white wine, There does not appear to be a relationship between residual sugar and quality. There is also an outlier, which might make running any kind of regression difficult.
-
-```{r}
-winech <- t.test(wine_red$chlorides, wine_white$chlorides, var.equal = FALSE)
-winech
-
-```
-```{r}
-wine %>% 
-  ggplot(aes(x=wine$chlorides, y=wine$quality
-            )) +
-    geom_point() +
-  labs(title="quality compared to chlorides")+
-  xlab("chlorides")+
-  ylab("quality")+
-  theme_bw() 
-```
-
-There is a difference in chlorides between red and white wines.
-We might try a regression here.  there appears to be a slight negative relationship between chlorides and quality. There are a few outliers.
-
-```{r}
-winesd <- t.test(wine_red$total.sulfur.dioxide, wine_white$total.sulfur.dioxide, var.equal = FALSE)
-winesd
-
-```
-```{r}
-wine %>% 
-  ggplot(aes(x=wine$total.sulfur.dioxide, y=wine$quality
-            )) +
-    geom_point() +
-  labs(title="quality compared to total sulfur dioxide")+
-  xlab("total sulfur dioxide")+
-  ylab("quality")+
-  theme_bw() 
-```
-
-There is a difference in sulfur dioxide between red and white wine.  
-There also appears to be a slight negative (weak) relationship between sulfur dioxide and quality of wine
-
-
-
-
-```{r}
-wineph <- t.test(wine_red$pH, wine_white$pH, var.equal = FALSE)
-wineph
-
-```
-```{r}
-wine %>% 
-  ggplot(aes(x=wine$pH, y=wine$quality
-            )) +
-    geom_point() +
-  labs(title="quality compared to pH")+
-  xlab("pH")+
-  ylab("quality")+
-  theme_bw() 
-```
-
-There is a statistically significant difference of pH between red and white wine.
-There does not appear to be a relationship between pH and quality of whine
-
-```{r}
-winesu <- t.test(wine_red$sulphates, wine_white$sulphates, var.equal = FALSE)
-winesu
-
-```
-```{r}
-wine %>% 
-  ggplot(aes(x=wine$sulphates, y=wine$quality
-            )) +
-    geom_point() +
-  labs(title="quality compared to sulphates")+
-  xlab("sulphates")+
-  ylab("quality")+
-  theme_bw() 
-```
-There is a significant difference in sulphates between red and white wine.
-
-We can say there is a possible relationship between quality and sulphates--a negative, weak relationship.
-
-```{r}
 pairs(~sulphates+total.sulfur.dioxide+chlorides+citric.acid+pH+volatile.acidity+residual.sugar+fixed.acidity+density+alcohol, data=wine)
-```
--->
 
-The multivariable ANOVA test shows that wine quality scores are significantly affected by fixed acidity, volatily acidity, residual sugar, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, and alcohol. Quality scores are not dependent on citric acid or chlorides.
-Knowing that these are all significant predictors of quality, it would be interesting to see whether white wine had more or less of these properties.
-
-### Citric acid and volatile acidity
+### Citric acid and volatile acidity (Hypothesis 5)
 
 ```{r}
 wine_red_results <- aov(quality ~ citric.acid*volatile.acidity, data = wine_red )
@@ -481,40 +232,9 @@ wine_red_results <- aov(quality ~ citric.acid*volatile.acidity, data = wine_red 
 wine_red_table <- summary(wine_red_results)
 
 pander(wine_red_table, style='rmarkdown') 
-```
 
-Winemakers use citric acid to sterilize equipment between batches. Citric acid is also found in fruitier wines.  However, citric acid can contribute to volatile acidity which leads to wine spoilage. Even though citric acid is not a significant predictor, we want to look to see if there is an interaction between citric acid and volatile acidity.
+### Which PC impact quality (Hypothesis 6)
 
-
-
-<!--
-### Hypothesis test for interaction
-
-**Hypotheses**
-
-$H_0:$ There is not an interaction between citric acid and volatile acidity <br> 
-$H_1:$ There is an interaction between citric acid and volatile acidity
-
-**Test Statistic**
-
-$F_0 = `r round(wine_red_table[[1]][["F value"]][3], digits=3)`$.
-
-***p*-value**
-
-$`r p.value.string(wine_red_table[[1]][["Pr(>F)"]][3])`$.
-
-**Rejection Region**
-
-Reject if $p < \alpha$, where $\alpha=0.05$.
-
-**Conclusion and Interpretation**
--->
-
-There is sufficient evidence to suggest that there is an interaction between citric acid and volatile acidity because $`r p.value.string(wine_red_table[[1]][["Pr(>F)"]][3])`$.
-
-### Hypothesis 6
-
-```{r, include= FALSE}
 wine_fxacid_var.f <- var.test(wine_red$fixed.acidity, wine_white$fixed.acidity, alternative = "t", conf.level = 0.95, ratio = 1)
 
 compare1 <- t.test(wine_white$fixed.acidity, wine_red$fixed.acidity, var.equal = FALSE, alternative = "less")
@@ -746,9 +466,31 @@ p16 <- p16 +
         stat_qq_line() +
   labs(title="qq plot wine_white$total.alcohol")+
         theme_bw()
-
-
 ```
+
+The first research question was if the variance of quality was the same for both red and white wines. There is sufficent evidence to suggest that the variability of the quality scores of red and white wines is significantly different, with ($`r p.value.string(wine_quality_var.f$p.value)`$) at the $\alpha = .05$ level. Because there is a difference in variablity, it impacted which tests were run in the following hypotheses. 
+
+
+The next research question was to determine in the mean quality of the two types of wines were different. There is sufficent evidence to suggest that the mean quality is different, with ($`r p.value.string(wine_anova_table[[1]][["Pr(>F)"]][1])`$) at the $\alpha = .05$ level. 
+
+The natural follow-up question is, "Which wine has a greater mean quality" From several t-tests, it was determined that there is sufficient evidence to suggest that the mean quality of red wine is less than the mean quality of white wine at the $\alpha=0.05$ level ($`r p.value.string(winequal2$p.value[1])`$). 
+
+The next research question wsa to see what physiochemical properties affect the quality of wine and which properties white wine has more or less of compared to red wine. 
+
+Several physiochemical properties play a significant role in affecting quality of wine at the $\alpha=0.05$ level.
+
+The multivariable ANOVA test shows that wine quality scores are significantly affected by fixed acidity, volatily acidity, residual sugar, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, and alcohol. Quality scores are not dependent on citric acid or chlorides.
+Knowing that these are all significant predictors of quality, it would be interesting to see whether white wine had more or less of these properties.
+
+
+Winemakers use citric acid to sterilize equipment between batches. Citric acid is also found in fruitier wines.  However, citric acid can contribute to volatile acidity which leads to wine spoilage. Even though citric acid is not a significant predictor, we want to look to see if there is an interaction between citric acid and volatile acidity.
+
+
+$`r p.value.string(wine_red_table[[1]][["Pr(>F)"]][3])`$.
+
+
+There is sufficient evidence to suggest that there is an interaction between citric acid and volatile acidity because $`r p.value.string(wine_red_table[[1]][["Pr(>F)"]][3])`$.
+
 
 
 
