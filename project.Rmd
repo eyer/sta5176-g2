@@ -69,7 +69,7 @@ wine <- cbind(type, wine) # add category column
 
 ## Introduction
 
-Wine testing is important to both sellers and consumers. By testing wine samples, vineyards are able to ensure that their wines are safe for consumers, and that the taste of each type of wine stays consistent. It is even used to help set pricing scales. This project will be comparing different physicochemical (chemical properties) and sensory elements of wine in order to see what elements impact quality.
+Wine testing is important to both sellers and consumers. By testing wine samples, vineyards are able to ensure that their wines are safe for consumers, and that the taste of each type of wine stays consistent. It is even used to help set pricing scales. This project will be comparing different physicochemical properties and sensory elements of wine in order to see what elements impact quality.
 
 The chemical composition of wine can impact both the quality of the wine and our bodies. This study will be looking at 11 different physicochemical properties: fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, and alcohol content. We will specifically look to see if there is an interaction between volatile acidity and citric acidity. Volatile acidity is how wine spoilage is measured [@siteC]. Typically, wine makers attempt to keep volatile acidity to a minimum to improve the quality of wine [@siteA]. Citric acid keeps wine tasting fresh, while imparting a slight citric taste to the wine [@siteB].
 
@@ -243,7 +243,7 @@ The natural follow-up question is, "Which wine has a greater mean quality?" From
 
 The next research question was to see if physicochemical properties affect the quality of wine. The resulting multivariable regression line is: 
 
-$\hat{y} = `r round(h3_model.coef[[1]], digits = 3)` + `r round(h3_model.coef[[2]], digits = 3)`$ fixed acidity  $`r round(h3_model.coef[[3]], digits = 3)`$ volatile acidity $`r round(h3_model.coef[[4]], digits = 3)`$ citric acid $+ `r round(h3_model.coef[[5]], digits = 3)`$ residual sugar $`r round(h3_model.coef[[6]], digits = 3)`$ chlorides $+ `r round(h3_model.coef[[7]], digits = 3)`$ free sulfur dioxide $ `r round(h3_model.coef[[8]], digits = 3)`$ total sulfur dioxide $`r round(h3_model.coef[[9]], digits = 3)`$ density $+ `r round(h3_model.coef[[10]], digits = 3)`$ pH $+ `r round(h3_model.coef[[11]], digits = 3)`$ sulphates $+ `r round(h3_model.coef[[12]], digits = 3)`$ alcohol
+$\hat{y} = `r round(h3_model.coef[[1]], digits = 3)` + `r round(h3_model.coef[[2]], digits = 3)`$ fixed acidity  $`r round(h3_model.coef[[3]], digits = 3)`$ volatile acidity $`r round(h3_model.coef[[4]], digits = 3)`$ citric acid $+ `r round(h3_model.coef[[5]], digits = 3)`$ residual sugar $`r round(h3_model.coef[[6]], digits = 3)`$ chlorides $+ `r round(h3_model.coef[[7]], digits = 3)`$ free sulfur dioxide $`r round(h3_model.coef[[8]], digits = 3)`$ total sulfur dioxide $`r round(h3_model.coef[[9]], digits = 3)`$ density $+ `r round(h3_model.coef[[10]], digits = 3)`$ pH $+ `r round(h3_model.coef[[11]], digits = 3)`$ sulphates $+ `r round(h3_model.coef[[12]], digits = 3)`$ alcohol
 
 
 The multivariable ANOVA test (results shown below, along with pairwise comparisons of the different physicochemical attributes) shows that there is sufficient evidence to suggest that wine quality scores are significantly affected by fixed acidity, volatile acidity, residual sugar, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, and alcohol. Quality scores are not dependent on citric acid or chlorides.
@@ -261,7 +261,7 @@ pairs(~ sulphates + total.sulfur.dioxide +
 
 **Quality compared to fixed acidity**
 
-```{r out.width = '50%'}
+```{r out.width = '45%'}
 wine %>% 
   ggplot(aes(x=wine$fixed.acidity, y=wine$quality
             )) +
@@ -277,7 +277,7 @@ When we look at fixed acidity, we see a slope of $`r round(h3_model.coef[[2]], d
 
 **Quality compared to volatile acidity**
 
-```{r out.width = '50%'}
+```{r out.width = '45%'}
 wine %>% 
   ggplot(aes(x=wine$volatile.acidity, y=wine$quality
             )) +
@@ -293,7 +293,7 @@ When we look at volatile acidity, we see a slope of $`r round(h3_model.coef[[3]]
 
 **Quality compared to citric acid**
 
-```{r out.width = '50%'}
+```{r out.width = '45%'}
 wine %>% 
   ggplot(aes(x=wine$citric.acid, y=wine$quality
             )) +
@@ -309,7 +309,7 @@ When we look at citric acid, we see a slope of $`r round(h3_model.coef[[4]], dig
 
 **Quality compared to residual sugar**
 
-```{r out.width = '50%'}
+```{r out.width = '45%'}
 wine %>% 
   ggplot(aes(x=wine$residual.sugar, y=wine$quality
             )) +
@@ -326,7 +326,7 @@ When we look at residual sugar, we see a slope of $`r round(h3_model.coef[[5]], 
 
 **Quality compared to chlorides**
 
-```{r out.width = '50%'}
+```{r out.width = '45%'}
 wine %>% 
   ggplot(aes(x=wine$chlorides, y=wine$quality
             )) +
@@ -343,7 +343,7 @@ When we look at chlorides, we see a slope of $`r round(h3_model.coef[[6]], digit
 
 **Quality compared to free sulfur dioxide**
 
-```{r out.width = '50%'}
+```{r out.width = '45%'}
 wine %>% 
   ggplot(aes(x=wine$free.sulfur.dioxide, y=wine$quality
             )) +
@@ -360,7 +360,7 @@ When we look at free sulfur dioxide, we see a slope of $`r round(h3_model.coef[[
 
 **Quality compared to total sulfur dioxide**
 
-```{r out.width = '50%'}
+```{r out.width = '45%'}
 wine %>% 
   ggplot(aes(x=total.sulfur.dioxide, y=wine$quality
             )) +
@@ -377,7 +377,7 @@ When we look at total sulfur dioxide, we see a slope of $`r round(h3_model.coef[
 
 **Quality compared to density**
 
-```{r out.width = '50%'}
+```{r out.width = '45%'}
 wine %>% 
   ggplot(aes(x=wine$density, y=wine$quality
             )) +
@@ -393,7 +393,7 @@ When we look at density, we see a slope of $`r round(h3_model.coef[[9]], digits 
 
 **Quality compared to pH**
 
-```{r out.width = '50%'}
+```{r out.width = '45%'}
 wine %>% 
   ggplot(aes(x=wine$pH, y=wine$quality
             )) +
@@ -409,7 +409,7 @@ When we look at pH, we see a slope of $`r round(h3_model.coef[[10]], digits = 3)
 
 **Quality compared to sulphates**
 
-```{r out.width = '50%'}
+```{r out.width = '45%'}
 wine %>% 
   ggplot(aes(x=wine$sulphates, y=wine$quality
             )) +
@@ -426,7 +426,7 @@ When we look at sulphates, we see a slope of $`r round(h3_model.coef[[11]], digi
 
 **Quality compared to alcohol**
 
-```{r out.width = '50%'}
+```{r out.width = '45%'}
 wine %>% 
   ggplot(aes(x=wine$alcohol, y=wine$quality
             )) +
