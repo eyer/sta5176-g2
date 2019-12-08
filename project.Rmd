@@ -8,11 +8,11 @@ author:
 - Tyler Watson
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output:
-  pdf_document: default
   html_document:
     includes:
       after_body: doc_prefix.html
     theme: cerulean
+  pdf_document: default
 nocite: |
   @Cortez2009aa
 csl: apa.csl
@@ -156,9 +156,10 @@ winequal2 <- t.test(wine_red$quality, wine_white$quality, var.equal = FALSE, alt
 winequal2
 
 ### Physiochemical attributes and quality (Hypothesis 3 and 4)
-
+```
 ``` {r, include= FALSE}
 h3_model <- lm(quality ~ fixed.acidity + volatile.acidity + citric.acid + residual.sugar + chlorides + free.sulfur.dioxide + total.sulfur.dioxide + density + pH + sulphates + alcohol, data=wine)
+h3_model.coef <- coefficients(h3_model)
 h3_anova <- Anova(h3_model, type = 3, digits = 3)
 h3_summary <- summary(h3_model)
 
@@ -235,7 +236,12 @@ The next research question was to determine if the mean quality of the two types
 
 The natural follow-up question is, "Which wine has a greater mean quality" From several t-tests, it was determined that there is sufficient evidence to suggest that the mean quality of red wine is less than the mean quality of white wine at the $\alpha=.05$ level ($`r p.value.string(winequal2$p.value[1])`$). 
 
-The next research question was to see if physiochemical properties affect the quality of wine. The multivariable ANOVA test (results shown below, along with pairwise comparisons of the different physiochemical attributes) shows that there is sufficient evidence to suggest that wine quality scores are significantly affected by fixed acidity, volatile acidity, residual sugar, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, and alcohol. Quality scores are not dependent on citric acid or chlorides.
+The next research question was to see if physiochemical properties affect the quality of wine. The resulting multivariable regression line is The resulting regression model is 
+
+$\hat{y} = `r round(h3_model.coef[[1]], digits = 2)` + `r round(h3_model.coef[[2]], digits = 2)`$ fixed acidity  $f+`r round(h3_model.coef[[3]], digits = 2)`$ volatile acidity $+ `r round(h3_model.coef[[4]], digits = 2)`$ citric acid $+ `r round(h3_model.coef[[5]], digits = 2)`$ residual sugar $+ `r round(h3_model.coef[[6]], digits = 2)`$ chlorides $+ `r round(h3_model.coef[[7]], digits = 2)`$ free sulfur dioxide $+ `r round(h3_model.coef[[8]], digits = 2)`$ tota sulfur dioxide $+ `r round(h3_model.coef[[9]], digits = 2)`$ density $+ `r round(h3_model.coef[[10]], digits = 2)`$ pH $+ `r round(h3_model.coef[[11]], digits = 2)`$ sulphates $+ `r round(h3_model.coef[[12]], digits = 2)`$ alcohol
+
+
+The multivariable ANOVA test (results shown below, along with pairwise comparisons of the different physiochemical attributes) shows that there is sufficient evidence to suggest that wine quality scores are significantly affected by fixed acidity, volatile acidity, residual sugar, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, and alcohol. Quality scores are not dependent on citric acid or chlorides.
 
 ```{r}
 kable(h3_anova, digits = 3, format = "pandoc", caption = "ANOVA table",
@@ -247,6 +253,126 @@ pairs(~ sulphates + total.sulfur.dioxide +
         alcohol, data=wine)
 ```
 
+
+```{r}
+wine %>% 
+  ggplot(aes(x=wine$fixed.acidity, y=wine$quality
+            )) +
+    geom_point() +
+  labs(title="quality compared to fixed acidity")+
+  xlab("fixed acidity")+
+  ylab("quality")+
+  theme_bw() 
+```
+```{r}
+wine %>% 
+  ggplot(aes(x=wine$volatile.acidity, y=wine$quality
+            )) +
+    geom_point() +
+  labs(title="quality compared to volatile acidity")+
+  xlab("volatile acidity")+
+  ylab("quality")+
+  theme_bw() 
+```
+
+```{r}
+wine %>% 
+  ggplot(aes(x=wine$citric.acid, y=wine$quality
+            )) +
+    geom_point() +
+  labs(title="quality compared to citric acid")+
+  xlab("citric acid")+
+  ylab("quality")+
+  theme_bw() 
+```
+
+```{r}
+wine %>% 
+  ggplot(aes(x=wine$residual.sugar, y=wine$quality
+            )) +
+    geom_point() +
+  labs(title="quality compared to residual sugar")+
+  xlab("residual sugar")+
+  ylab("quality")+
+  theme_bw() 
+```
+
+```{r}
+wine %>% 
+  ggplot(aes(x=wine$chlorides, y=wine$quality
+            )) +
+    geom_point() +
+  labs(title="quality compared to chlorides")+
+  xlab("chlorides")+
+  ylab("quality")+
+  theme_bw() 
+```
+
+```{r}
+wine %>% 
+  ggplot(aes(x=wine$free.sulfur.dioxide, y=wine$quality
+            )) +
+    geom_point() +
+  labs(title="quality compared to free sulfur dioxide")+
+  xlab("free sulfur dioxide")+
+  ylab("quality")+
+  theme_bw() 
+```
+
+```{r}
+wine %>% 
+  ggplot(aes(x=total.sulfur.dioxide, y=wine$quality
+            )) +
+    geom_point() +
+  labs(title="quality compared to total sulfur dioxide")+
+  xlab("total sulfur dioxide")+
+  ylab("quality")+
+  theme_bw() 
+```
+
+```{r}
+wine %>% 
+  ggplot(aes(x=wine$density, y=wine$quality
+            )) +
+    geom_point() +
+  labs(title="quality compared to density")+
+  xlab("density")+
+  ylab("quality")+
+  theme_bw() 
+```
+
+```{r}
+wine %>% 
+  ggplot(aes(x=wine$pH, y=wine$quality
+            )) +
+    geom_point() +
+  labs(title="quality compared to pH")+
+  xlab("pH")+
+  ylab("quality")+
+  theme_bw() 
+```
+
+```{r}
+wine %>% 
+  ggplot(aes(x=wine$sulphates, y=wine$quality
+            )) +
+    geom_point() +
+  labs(title="quality compared to sulphates")+
+  xlab("sulphates")+
+  ylab("quality")+
+  theme_bw() 
+```
+
+```{r}
+wine %>% 
+  ggplot(aes(x=wine$alcohol, y=wine$quality
+            )) +
+    geom_point() +
+  labs(title="quality compared to alcohol")+
+  xlab("alcohol")+
+  ylab("quality")+
+  theme_bw() 
+```
 Winemakers use citric acid to sterilize equipment between batches, and it is found in fruitier wines.  However, citric acid can contribute to volatile acidity which leads to wine spoilage. Even though citric acid is not a significant predictor of quality, we want to see if there is an interaction between citric acid and volatile acidity.There is sufficient evidence to suggest that there is an interaction between citric acid and volatile acidity because $`r p.value.string(wine_red_table[[1]][["Pr(>F)"]][3])`$.
 
 Knowing that all the physiochemical properties except for citric acid or chlorides these are all significant predictors of quality and that white wine has the higher quality, the last research question was to see how the physiochemical composition differs between white and red wines. There is sufficient evidence to suggest that white wine has less fixed acidity ($`r p.value.string(compare1$p.value[1])`$), less volatile acidity (spoilage) ($`r p.value.string(compare2$p.value[1])`$), more residual sugar ($`r p.value.string(compare3$p.value[1])`$), greater free sulfur dioxide ($`r p.value.string(compare4$p.value[1])`$), greater total sulfur dioxide ($`r p.value.string(compare5$p.value[1])`$), less dense ($`r p.value.string(compare6$p.value[1])`$), lower pH ($`r p.value.string(compare7$p.value[1])`$), fewer sulphates ($`r p.value.string(compare8$p.value[1])`$), and more alcohol ($`r p.value.string(compare9$p.value[1])`$).
