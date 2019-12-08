@@ -8,11 +8,11 @@ author:
 - Tyler Watson
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output:
+  pdf_document: default
   html_document:
     includes:
       after_body: doc_prefix.html
     theme: cerulean
-  pdf_document: default
 nocite: |
   @Cortez2009aa
 csl: apa.csl
@@ -254,7 +254,7 @@ pairs(~ sulphates + total.sulfur.dioxide +
 ```
 
 
-```{r}
+```{r out.width = '40%'}
 wine %>% 
   ggplot(aes(x=wine$fixed.acidity, y=wine$quality
             )) +
@@ -264,7 +264,7 @@ wine %>%
   ylab("quality")+
   theme_bw() 
 ```
-```{r}
+```{r out.width = '40%'}
 wine %>% 
   ggplot(aes(x=wine$volatile.acidity, y=wine$quality
             )) +
@@ -275,7 +275,7 @@ wine %>%
   theme_bw() 
 ```
 
-```{r}
+```{r out.width = '40%'}
 wine %>% 
   ggplot(aes(x=wine$citric.acid, y=wine$quality
             )) +
@@ -286,7 +286,7 @@ wine %>%
   theme_bw() 
 ```
 
-```{r}
+```{r out.width = '40%'}
 wine %>% 
   ggplot(aes(x=wine$residual.sugar, y=wine$quality
             )) +
@@ -297,7 +297,7 @@ wine %>%
   theme_bw() 
 ```
 
-```{r}
+```{r out.width = '40%'}
 wine %>% 
   ggplot(aes(x=wine$chlorides, y=wine$quality
             )) +
@@ -308,7 +308,7 @@ wine %>%
   theme_bw() 
 ```
 
-```{r}
+```{r out.width = '40%'}
 wine %>% 
   ggplot(aes(x=wine$free.sulfur.dioxide, y=wine$quality
             )) +
@@ -319,7 +319,7 @@ wine %>%
   theme_bw() 
 ```
 
-```{r}
+```{r out.width = '40%'}
 wine %>% 
   ggplot(aes(x=total.sulfur.dioxide, y=wine$quality
             )) +
@@ -330,7 +330,7 @@ wine %>%
   theme_bw() 
 ```
 
-```{r}
+```{r out.width = '40%'}
 wine %>% 
   ggplot(aes(x=wine$density, y=wine$quality
             )) +
@@ -341,7 +341,7 @@ wine %>%
   theme_bw() 
 ```
 
-```{r}
+```{r out.width = '40%'}
 wine %>% 
   ggplot(aes(x=wine$pH, y=wine$quality
             )) +
@@ -352,7 +352,7 @@ wine %>%
   theme_bw() 
 ```
 
-```{r}
+```{r out.width = '40%'}
 wine %>% 
   ggplot(aes(x=wine$sulphates, y=wine$quality
             )) +
@@ -363,7 +363,7 @@ wine %>%
   theme_bw() 
 ```
 
-```{r}
+```{r out.width = '40%'}
 wine %>% 
   ggplot(aes(x=wine$alcohol, y=wine$quality
             )) +
