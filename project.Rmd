@@ -25,14 +25,14 @@ Jovan Burgos:
 Created a code for an assortment of tests. Created idea of having wine quality for data set.Gave results for test three, four, and five
 
 Adrienne Eddy:
-Completed the methods section. Worked on introduction. Worked on hypothesis 5, created idea for hypothesis six. worked on code for tests for hypothesis two, six. Gave results for test three, four and six. 
+Completed the methods section. Worked on introduction. Worked on hypothesis 5, created idea for hypothesis six. worked on code for tests for hypothesis two, six. Gave results for test three, four and six. Worked on cleaning up project.
 
 
 Chad Michael Eyer:
 Created and trained on GitHub. Hosted virtual meeting. Created hypotheses. Completed test for hypotheses one, two, and three. Found concrete data set
 
 Valorie Myer:
-Created group chat for the group. Completed introduction. Hosted virtual meeting. Wrote conclusions section. Rewrote results as a paragraph.
+Created group chat for the group. Completed introduction. Hosted virtual meeting. Wrote conclusions section. Rewrote results as a paragraph. Worked on cleaning up project
 
 
 Tyler Watson:
@@ -105,42 +105,31 @@ CME: I like this.
 
 All tests are run at the $95\%$ confidence level unless otherwise noted.
 
-<!--
-Note from Adrienne
-I did some tweaking for the methods section  I've been working with my principal on writing his PhD prospectus and thesis.  The methods chapter doesn't have any results in it.  It just has what tests he plans to run.  (For his thesis, he plans on using an independent samples t-test, using pre-existing data).  I really think this is what we should have here.  I think stating that we are testing assumptions is good methodology, but I think we should list out what methods we use to test each hypothesis.  
-
-I like this, but I feel that it should be in past tense. Is that okay?
--->
-
 Below, you will find the tests for each hypothesis and a brief explanation and justification for each test.
 
-### Variances of quality
+**Variances of quality**
 
 We used the $F$ test because this test allows us to compare the variances of each data set to see if they are equal. We used this to guide us in determining which tests to use along the way.
 
-### Mean quality  
+**Mean quality**
 
-Provided that the data met the assumptions, we used ANOVA because the two sets of data are independent and this test allows us to compare means.
-<!--Adrienne still thinks we should use independent samples t-test because we are only comparing two means, not more than two, which is really what ANOVA is for. 
-Independent t will also allow us to test all directions, =, <, >... which will give us a much better picture than just "are they equal"? 
-In ANOVA, our only null and alternative is "they are all equal or one is different", then we do post hoc to tell us which is different.  This still doesn't give us direction.  Since we only have two, I feel like t is a better choice, because we can get directionality out of it.  t, with unequal variances.  I set up the test, but am having some difficulty with getting the code to work outside the test... In paragraph form.  I can look at results in a window, so I know how how the test went and what the p-value and t-vales are, but can't call them when I write the paragraph.  
--->
+Provided that the data met the assumptions, we used *t*-tests because the two sets of data are independent and this test allows us to compare means.
 
-### Physicochemical attributes affecting quality
+**Do any physicochemical attributes affect quality?**
 
-We used multivariable regression because this allows us to create a model that will show if there is any relationship between any of the attributes and the quality of the wine.  We created pairwise scatterplots which give us a visual idea of what the data looks like.  We ran a lack of fit test to make sure our regression model fits. We ran Pearson's/Spearman's Correlation Coefficient
+We used multivariable regression and a multivariable ANOVA because this allowed us to create a model and analyze this model that will showed if there is any relationship between any of the attributes and the quality of the wine.  We created pairwise scatterplots which give us a visual idea of what the data looks like.  
 
-### Which physicochemical attributes
+**Which physicochemical attributes affect quality?**
 
-We performed t-tests on each predictor to determine which, if any, significantly affect quality.
+We used the results from the multivariable ANOVA from the previous hypothesis to determine which attributes were significant predictors of quality.
 
-### Citric acid and volatile acidity interaction
+**Is there an interaction between citric acid and volatile acidity?**
 
 We created a regression model to determine if there is an interaction between citric acid and volatile acidity. 
 
-### Physicochemical attributes potentially improving quality
+**Physicochemical attributes potentially improving quality**
 
-We ran t-tests to compare physicochemical attributes between red and white wine to determine the kind of difference.
+We ran t-tests after testing assumptions to compare physicochemical attributes between red and white wine to determine the kind of difference.
 
 
 ## Results
