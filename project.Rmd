@@ -1,13 +1,14 @@
 ---
-title: "Project: Wine Quality"
-author: 
-- "Jovan Burgos"
-- "Adrienne Eddy"
-- "Chad Michael Eyer"
-- "Valorie Myer"
-- "Tyler Watson"
+title: 'Project: Wine Quality'
+author:
+- Jovan Burgos
+- Adrienne Eddy
+- Chad Michael Eyer
+- Valorie Myer
+- Tyler Watson
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output:
+  pdf_document: default
   html_document:
     includes:
       after_body: doc_prefix.html
@@ -237,8 +238,13 @@ The natural follow-up question is, "Which wine has a greater mean quality" From 
 The next research question was to see if physiochemical properties affect the quality of wine. The multivariable ANOVA test (results shown below, along with pairwise comparisons of the different physiochemical attributes) shows that there is sufficient evidence to suggest that wine quality scores are significantly affected by fixed acidity, volatile acidity, residual sugar, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, and alcohol. Quality scores are not dependent on citric acid or chlorides.
 
 ```{r}
-kable(h3_anova, digits = 3, format = "pandoc", caption = "ANOVA table", align=c('l', rep('r', 5))) # Output ANOVA table
-pairs(~sulphates+total.sulfur.dioxide+chlorides+citric.acid+pH+volatile.acidity+residual.sugar+fixed.acidity+density+alcohol, data=wine)
+kable(h3_anova, digits = 3, format = "pandoc", caption = "ANOVA table",
+      align=c('l', rep('r', 5))) # Output ANOVA table
+pairs(~ sulphates + total.sulfur.dioxide + 
+        chlorides + citric.acid + pH + 
+        volatile.acidity + residual.sugar + 
+        fixed.acidity + density +
+        alcohol, data=wine)
 ```
 
 Winemakers use citric acid to sterilize equipment between batches, and it is found in fruitier wines.  However, citric acid can contribute to volatile acidity which leads to wine spoilage. Even though citric acid is not a significant predictor of quality, we want to see if there is an interaction between citric acid and volatile acidity.There is sufficient evidence to suggest that there is an interaction between citric acid and volatile acidity because $`r p.value.string(wine_red_table[[1]][["Pr(>F)"]][3])`$.
