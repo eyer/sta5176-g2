@@ -280,4 +280,4 @@ One of the limitations of this study was that all the wine was from the same reg
 sessionInfo()
 ```
 
-## Reference
+## References
