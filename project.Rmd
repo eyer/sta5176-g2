@@ -74,9 +74,9 @@ wine <- cbind(type, wine) # add category column
 
 ## Introduction
 
-Wine testing is important to both sellers and consumers. By testing wine samples, vineyards are able to ensure that their wines are safe for consumers, and that the taste of each type of wine stays consistent. It is even used to help set pricing scales. This project will be comparing different physicochemical (chemical properties) and sensory elements of wine in order to see what elements impact quality.
+Wine testing is important to both sellers and consumers. By testing wine samples, vineyards are able to ensure that their wines are safe for consumers, and that the taste of each type of wine stays consistent. It is even used to help set pricing scales. This project will be comparing different physiochemical (chemical properties) and sensory elements of wine in order to see what elements impact quality.
 
-The chemical composition of wine can impact both the quality of the wine and our bodies. This study will be looking at 11 different physicochemical properties: fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, and alcohol content. We will specifically look to see if there is an interaction between volatile acidity and citric acidity. Volatile acidity is how wine spoilage is measured <!--[@siteC]-->. Typically, wine makers attempt to keep volatile acidity to a minimum to improve the quality of wine<!--[@sitea]-->. Citric acid keeps wine tasting fresh, while imparting a slight citric taste to the wine<!--[@siteb]-->.
+The chemical composition of wine can impact both the quality of the wine and our bodies. This study will be looking at 11 different physiochemical properties: fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, and alcohol content. We will specifically look to see if there is an interaction between volatile acidity and citric acidity. Volatile acidity is how wine spoilage is measured [@siteC]. Typically, wine makers attempt to keep volatile acidity to a minimum to improve the quality of wine [@siteA]. Citric acid keeps wine tasting fresh, while imparting a slight citric taste to the wine [@siteB].
 
 
 
