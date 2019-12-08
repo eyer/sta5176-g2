@@ -27,22 +27,16 @@ Created a code for an assortment of tests. Created idea of having wine quality f
 Adrienne Eddy:
 Completed the methods section. Worked on introduction. Worked on hypothesis 5, created idea for hypothesis six. worked on code for tests for hypothesis two, six. Gave results for test three, four and six. Worked on cleaning up project.
 
-
 Chad Michael Eyer:
-Created and trained on GitHub. Hosted virtual meeting. Created hypotheses. Completed test for hypotheses one, two, and three. Found concrete data set
+Created and trained on GitHub. Hosted virtual meeting. Created hypotheses. Completed test for hypotheses one, two, and three. Found concrete data set. General clean-up. Biblography work. Created set-up block.
 
 Valorie Myer:
-Created group chat for the group. Completed introduction. Hosted virtual meeting. Wrote conclusions section. Rewrote results as a paragraph. Worked on cleaning up project
-
+Created group chat for the group. Completed introduction. Hosted virtual meeting. Wrote conclusions section. Rewrote results as a paragraph. Worked on cleaning up project.
 
 Tyler Watson:
 Formulated hypotheses. Created detailed list of contributions. Completed test for hypotheses one and two. Put methods section into past tense. Completed test for hypothesis five.
 
-
 -->
-
-
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -78,10 +72,6 @@ Wine testing is important to both sellers and consumers. By testing wine samples
 
 The chemical composition of wine can impact both the quality of the wine and our bodies. This study will be looking at 11 different physiochemical properties: fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, and alcohol content. We will specifically look to see if there is an interaction between volatile acidity and citric acidity. Volatile acidity is how wine spoilage is measured [@siteC]. Typically, wine makers attempt to keep volatile acidity to a minimum to improve the quality of wine [@siteA]. Citric acid keeps wine tasting fresh, while imparting a slight citric taste to the wine [@siteB].
 
-
-
- 
-
 ## Hypotheses
 
 This project answers the following research questions:
@@ -92,14 +82,6 @@ This project answers the following research questions:
 - If so which physiochemical attributes significantly affect quality?
 - Is there an interaction between citric acid and volatile acidity for red wines?
 - What physiochemical attribute differences might lead to better quality?
-
-<!--Adrienne read that citric acid can lead to volatile acidity.  Why don't we look for an interaction between citric acid and volatile acidity as its metabolism affects quality?
-https://morewinemaking.com/products/citric-acid.html
-
-citric acid is used as a sanitizing agent between wine batches.
-
-CME: I like this.
--->
 
 ## Methods
 
@@ -113,7 +95,7 @@ We used the $F$ test because this test allows us to compare the variances of eac
 
 **Mean quality**
 
-Provided that the data met the assumptions, we used *t*-tests because the two sets of data are independent and this test allows us to compare means.
+Provided that the data met the assumptions, we used $t$-tests because the two sets of data are independent and this test allows us to compare means.
 
 **Do any physiochemical attributes affect quality?**
 
@@ -127,12 +109,13 @@ We used the results from the multivariable ANOVA from the previous hypothesis to
 
 We created a regression model to determine if there is an interaction between citric acid and volatile acidity. 
 
-**physiochemical attributes potentially improving quality**
+**Physiochemical attributes potentially improving quality**
 
 We ran t-tests after testing assumptions to compare physiochemical attributes between red and white wine to determine the kind of difference.
 
 
 ## Results
+
 This project will compares different physiochemical and sensory elements of wine. The wine in this data set are Vinho Verde wines, which comes from Minho region of Portugal. The data was collected between May 2004 and February 2007 and includes 1599 red wine samples and 4898 white wine samples. This study looked at 11 different physiochemical variables: fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, and alcohol content. This data also contains a sensory score variable called “quality.” Each wine sample was tasted by at least 3 judges, each of whom scored the wine from 0 (very bad) to 10 (excellent). The quality variable was the median of the scores [@Cortez2009aa]. 
 
 ``` {r , include=FALSE}
@@ -260,19 +243,13 @@ pairs(~sulphates+total.sulfur.dioxide+chlorides+citric.acid+pH+volatile.acidity+
 
 Winemakers use citric acid to sterilize equipment between batches, and it is found in fruitier wines.  However, citric acid can contribute to volatile acidity which leads to wine spoilage. Even though citric acid is not a significant predictor of quality, we want to see if there is an interaction between citric acid and volatile acidity.There is sufficient evidence to suggest that there is an interaction between citric acid and volatile acidity because $`r p.value.string(wine_red_table[[1]][["Pr(>F)"]][3])`$.
 
-
 Knowing that all the physiochemical properties except for citric acid or chlorides these are all significant predictors of quality and that white wine has the higher quality, the last research question was to see how the physiochemical composition differs between white and red wines. There is sufficient evidence to suggest that white wine has less fixed acidity ($`r p.value.string(compare1$p.value[1])`$), less volatile acidity (spoilage) ($`r p.value.string(compare2$p.value[1])`$), more residual sugar ($`r p.value.string(compare3$p.value[1])`$), greater free sulfur dioxide ($`r p.value.string(compare4$p.value[1])`$), greater total sulfur dioxide ($`r p.value.string(compare5$p.value[1])`$), less dense ($`r p.value.string(compare6$p.value[1])`$), lower pH ($`r p.value.string(compare7$p.value[1])`$), fewer sulphates ($`r p.value.string(compare8$p.value[1])`$), and more alcohol ($`r p.value.string(compare9$p.value[1])`$).
-
 
 ## Conclusion
 
 This study of Portuguese wines shows that winemaking is both an art and a science. As vineyards strive to develop better tasting wines, they need to consider the physiochemical make-up of their product. The study found that the physiochemical properties of wine play an important part in the quality. Out of the eleven physiochemical properties studied, all but two, citric acid and chlorides, significantly predicted the quality of the wine. The data from this study showed that the white wine quality was better than red wine quality. When we looked at how the red and white wines differed in physiochemical properties, we found that white wine has less fixed acidity, less volatile acidity (spoilage), more residual sugar, greater free sulfur dioxide, greater total sulfur dioxide, less dense, lower pH, fewer sulphates, and more alcohol. Another notable find is that these physiochemical properties don’t just impact the quality of the wines--they also impact each other, as seen by the interaction between citric acid and volatile acidity.  These are important concepts to keep in mind for large vineyards all the way to those who want to try making their own wine at home.
  
 One of the limitations of this study was that all the wine was from the same region of Portugal. Another limitation was that the quality variable was based on a score of small groups of judges--only 3 judges in some cases. Something important to keep in mind when considering the quality score is that the score is based on the median, rather than the average, of the judges' scores. Future studies could be done to include wines from different parts of the globe and to include a larger panel of judges.
-
- 
-
-
 
 ## Session Info
 
