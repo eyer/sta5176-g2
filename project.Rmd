@@ -414,7 +414,11 @@ Knowing that all the physiochemical properties except for citric acid or chlorid
 
 This study of Portuguese wines shows that winemaking is both an art and a science. As vineyards strive to develop better tasting wines, they need to consider the physiochemical make-up of their product. The study found that the physiochemical properties of wine play an important part in the quality. Out of the eleven physiochemical properties studied, all but two, citric acid and chlorides, significantly predicted the quality of the wine. The data from this study showed that the white wine quality was better than red wine quality. When we looked at how the red and white wines differed in physiochemical properties, we found that white wine has less fixed acidity, less volatile acidity (spoilage), more residual sugar, greater free sulfur dioxide, greater total sulfur dioxide, less dense, lower pH, fewer sulphates, and more alcohol. Another notable find is that these physiochemical properties don’t just impact the quality of the wines--they also impact each other, as seen by the interaction between citric acid and volatile acidity.  These are important concepts to keep in mind for large vineyards all the way to those who want to try making their own wine at home.
  
-One of the limitations of this study was that all the wine was from the same region of Portugal. Another limitation was that the quality variable was based on a score of small groups of judges--only 3 judges in some cases. Something important to keep in mind when considering the quality score is that the score is based on the median, rather than the average, of the judges' scores. Future studies could be done to include wines from different parts of the globe and to include a larger panel of judges.
+One of the limitations of this study was that all the wine was from the same region of Portugal. Another limitation was that the quality variable was based on a score of small groups of judges--only 3 judges in some cases. Something important to keep in mind when considering the quality score is that the score is based on the median, rather than the average, of the judges' scores.
+
+Another limitation was our regression model.  We ran a lack of fit test and found that the model, while showing several attributes being significant, was not an appropriate model ($`r p.value.string(h3_lack$"Pr(>F)"[1])` 
+
+$Future studies could be done to include wines from different parts of the globe and to include a larger panel of judges.
 
 ## Session Info
 
