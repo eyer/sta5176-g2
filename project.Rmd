@@ -90,27 +90,27 @@ All tests are run at the $95\%$ confidence level unless otherwise noted.
 
 Below, you will find the tests for each hypothesis and a brief explanation and justification for each test.
 
-**Variances of quality**
+*Variances of quality*
 
 We used the $F$ test because this test allows us to compare the variances of each data set to see if they are equal. We used this to guide us in determining which tests to use along the way.
 
-**Mean quality**
+*Mean quality*
 
 Provided that the data met the assumptions, we used $t$-tests because the two sets of data are independent and this test allows us to compare means.
 
-**Do any physiochemical attributes affect quality?**
+*Do any physiochemical attributes affect quality?*
 
 We used multivariable regression and a multivariable ANOVA because this allowed us to create a model and analyze this model that will showed if there is any relationship between any of the attributes and the quality of the wine.  We created pairwise scatterplots which give us a visual idea of what the data looks like.  
 
-**Which physiochemical attributes affect quality?**
+*Which physiochemical attributes affect quality?*
 
 We used the results from the multivariable ANOVA from the previous hypothesis to determine which attributes were significant predictors of quality.
 
-**Is there an interaction between citric acid and volatile acidity?**
+*Is there an interaction between citric acid and volatile acidity?*
 
 We created a regression model to determine if there is an interaction between citric acid and volatile acidity. 
 
-**Physiochemical attributes potentially improving quality**
+*Physiochemical attributes potentially improving quality*
 
 We ran t-tests after testing assumptions to compare physiochemical attributes between red and white wine to determine the kind of difference.
 
