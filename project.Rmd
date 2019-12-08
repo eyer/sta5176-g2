@@ -8,11 +8,11 @@ author:
 - Tyler Watson
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output:
-  pdf_document: default
   html_document:
     includes:
       after_body: doc_prefix.html
     theme: cerulean
+  pdf_document: default
 nocite: |
   @Cortez2009aa
 csl: apa.csl
@@ -171,6 +171,10 @@ h3_total_row.MS <- NA # Set mean sum of squares on "Total" row to NA
 h3_anova <- rbind(h3_anova,h3_total_row) # Add "Total" row to bottom of ANOVA table
 h3_anova <- cbind(h3_anova[c(1,2,5,3,4)]) # Reorder columns of ANOVA table
 h3_anova$`Pr(>F)` <- ifelse(h3_anova$`Pr(>F)` < .0001, "< 0.0001", format(round(h3_anova$`Pr(>F)`, digits = 4), nsmall = 4)) # Change display of p values so they aren't rounded to zero
+h3_summary <- summary(h3_model)
+h3_t <- as_tibble(h3_summary[[4]])
+h3_ci <- as_tibble(confint(h3_summary, level=0.95))
+h3_lack <- pureErrorAnova(h3_model)
 colnames(h3_anova) <- c("SS", "df", "MS", "$F$", "$p$") # Set readable column headings for ANOVA table
 rownames(h3_anova) <- c("Fixed acidity", "Volatile acidity", "Citric acid", "Residual sugar", "Chlorides", "Free sulfur dioxide", "Total sulfur dioxide", "Density", "pH", "Sulphates", "Alcohol", "Error", "Total") # Set readable row headings for ANOVA table
 options(knitr.kable.NA = '') # this will hide missing values in the kable table
@@ -185,6 +189,7 @@ kable(h3_anova, digits = 3, format = "pandoc", caption = "ANOVA table", align=c(
 pairs(~sulphates+total.sulfur.dioxide+chlorides+citric.acid+pH+volatile.acidity+residual.sugar+fixed.acidity+density+alcohol, data=wine)
 
 ### Citric acid and volatile acidity (Hypothesis 5)
+```
 
 ```{r, include= FALSE}
 wine_red_results <- aov(quality ~ citric.acid*volatile.acidity, data = wine_red )
@@ -229,6 +234,10 @@ compare8 <- t.test(wine_white$sulphates, wine_red$sulphates, var.equal = FALSE, 
 compare9 <- t.test(wine_white$alcohol, wine_red$alcohol, var.equal = FALSE, alternative = "greater")
 ```
 
+```{r}
+h3_lack
+```
+
 The first research question asked if the variance of quality was the same for both red and white wines. There is sufficient evidence to suggest that the variability of the quality scores of red and white wines is significantly different, with ($`r p.value.string(wine_quality_var.f$p.value)`$) at the $\alpha = .05$ level. Because there is a difference in variability, it impacted which tests were run in the following hypothesis tests. 
 
 
@@ -238,7 +247,7 @@ The natural follow-up question is, "Which wine has a greater mean quality" From 
 
 The next research question was to see if physiochemical properties affect the quality of wine. The resulting multivariable regression line is The resulting regression model is 
 
-$\hat{y} = `r round(h3_model.coef[[1]], digits = 2)` + `r round(h3_model.coef[[2]], digits = 2)`$ fixed acidity  $f+`r round(h3_model.coef[[3]], digits = 2)`$ volatile acidity $+ `r round(h3_model.coef[[4]], digits = 2)`$ citric acid $+ `r round(h3_model.coef[[5]], digits = 2)`$ residual sugar $+ `r round(h3_model.coef[[6]], digits = 2)`$ chlorides $+ `r round(h3_model.coef[[7]], digits = 2)`$ free sulfur dioxide $+ `r round(h3_model.coef[[8]], digits = 2)`$ tota sulfur dioxide $+ `r round(h3_model.coef[[9]], digits = 2)`$ density $+ `r round(h3_model.coef[[10]], digits = 2)`$ pH $+ `r round(h3_model.coef[[11]], digits = 2)`$ sulphates $+ `r round(h3_model.coef[[12]], digits = 2)`$ alcohol
+$\hat{y} = `r round(h3_model.coef[[1]], digits = 2)` + `r round(h3_model.coef[[2]], digits = 2)`$ fixed acidity  $`r round(h3_model.coef[[3]], digits = 2)`$ volatile acidity $`r round(h3_model.coef[[4]], digits = 2)`$ citric acid $+ `r round(h3_model.coef[[5]], digits = 2)`$ residual sugar $`r round(h3_model.coef[[6]], digits = 2)`$ chlorides $+ `r round(h3_model.coef[[7]], digits = 2)`$ free sulfur dioxide $+ `r round(h3_model.coef[[8]], digits = 4)`$ total sulfur dioxide $`r round(h3_model.coef[[9]], digits = 2)`$ density $+ `r round(h3_model.coef[[10]], digits = 2)`$ pH $+ `r round(h3_model.coef[[11]], digits = 2)`$ sulphates $+ `r round(h3_model.coef[[12]], digits = 2)`$ alcohol
 
 
 The multivariable ANOVA test (results shown below, along with pairwise comparisons of the different physiochemical attributes) shows that there is sufficient evidence to suggest that wine quality scores are significantly affected by fixed acidity, volatile acidity, residual sugar, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, and alcohol. Quality scores are not dependent on citric acid or chlorides.
@@ -264,6 +273,9 @@ wine %>%
   ylab("quality")+
   theme_bw() 
 ```
+<br>
+When we look at fixed acidity, we see a slope of $`r round(h3_model.coef[[2]], digits = 2)`$.  This means for every 1 unit change of fixed acidity, we can expect to see a $`r round(h3_model.coef[[2]], digits = 2)`$ change in quality.  Or, for every $`r round(1/h3_model.coef[[2]], digits = 2)`$ units change in fixed acidity, we can expect a 1 unit change in quality.
+<br>
 ```{r out.width = '40%'}
 wine %>% 
   ggplot(aes(x=wine$volatile.acidity, y=wine$quality
@@ -274,7 +286,9 @@ wine %>%
   ylab("quality")+
   theme_bw() 
 ```
-
+<br>
+When we look at volatile acidity, we see a slope of $`r round(h3_model.coef[[3]], digits = 2)`$.  This means for every 1 unit change of volatile acidity, we can expect to see a $`r round(h3_model.coef[[3]], digits = 2)`$ change in quality.  Or, for every $`r round(1/h3_model.coef[[3]], digits = 2)`$ units change in volatile acidity we can expect a 1 unit change in quality.
+<br>
 ```{r out.width = '40%'}
 wine %>% 
   ggplot(aes(x=wine$citric.acid, y=wine$quality
@@ -285,7 +299,9 @@ wine %>%
   ylab("quality")+
   theme_bw() 
 ```
-
+<br>
+When we look at citric acid, we see a slope of $`r round(h3_model.coef[[4]], digits = 2)`$.  This means for every 1 unit change of citric acid, we can expect to see a $`r round(h3_model.coef[[4]], digits = 2)`$ change in quality.  Or, for every $`r round(1/h3_model.coef[[4]], digits = 2)`$ units change in citric acid, we can expect a 1 unit change in quality.
+<br>
 ```{r out.width = '40%'}
 wine %>% 
   ggplot(aes(x=wine$residual.sugar, y=wine$quality
@@ -296,7 +312,9 @@ wine %>%
   ylab("quality")+
   theme_bw() 
 ```
-
+<br>
+When we look at residual sugar, we see a slope of $`r round(h3_model.coef[[5]], digits = 2)`$.  This means for every 1 unit change of residual sugar, we can expect to see a $`r round(h3_model.coef[[5]], digits = 2)`$ change in quality.  Or, for every $`r round(1/h3_model.coef[[5]], digits = 2)`$ units change in residual sugar, we can expect a 1 unit change in quality.
+<br>
 ```{r out.width = '40%'}
 wine %>% 
   ggplot(aes(x=wine$chlorides, y=wine$quality
@@ -307,7 +325,9 @@ wine %>%
   ylab("quality")+
   theme_bw() 
 ```
-
+<br>
+When we look at chlorides, we see a slope of $`r round(h3_model.coef[[6]], digits = 2)`$.  This means for every 1 unit change of chlorides, we can expect to see a $`r round(h3_model.coef[[6]], digits = 2)`$ change in quality.  Or, for every $`r round(1/h3_model.coef[[6]], digits = 2)`$ units change in chlorides, we can expect a 1 unit change in quality.
+<br>
 ```{r out.width = '40%'}
 wine %>% 
   ggplot(aes(x=wine$free.sulfur.dioxide, y=wine$quality
@@ -318,7 +338,9 @@ wine %>%
   ylab("quality")+
   theme_bw() 
 ```
-
+<br>
+When we look at free sulfur dioxide, we see a slope of $`r round(h3_model.coef[[7]], digits = 2)`$.  This means for every 1 unit change of free sulfur dioxide, we can expect to see a $`r round(h3_model.coef[[7]], digits = 2)`$ change in quality.  Or, for every $`r round(1/h3_model.coef[[7]], digits = 2)`$ units change in free sulfur dioxide, we can expect a 1 unit change in quality.
+<br>
 ```{r out.width = '40%'}
 wine %>% 
   ggplot(aes(x=total.sulfur.dioxide, y=wine$quality
@@ -329,7 +351,9 @@ wine %>%
   ylab("quality")+
   theme_bw() 
 ```
-
+<br>
+When we look at total sulfur dioxide, we see a slope of $`r round(h3_model.coef[[8]], digits = 4)`$.  This means for every 1 unit change of total sulfur dioxide, we can expect to see a $`r round(h3_model.coef[[8]], digits = 4)`$ change in quality.  Or, for every $`r round(1/h3_model.coef[[8]], digits = 2)`$ units change in total sulfur dioxide, we can expect a 1 unit change in quality.
+<br>
 ```{r out.width = '40%'}
 wine %>% 
   ggplot(aes(x=wine$density, y=wine$quality
@@ -340,7 +364,9 @@ wine %>%
   ylab("quality")+
   theme_bw() 
 ```
-
+<br>
+When we look at density, we see a slope of $`r round(h3_model.coef[[9]], digits = 2)`$.  This means for every 1 unit change of density, we can expect to see a $`r round(h3_model.coef[[9]], digits = 2)`$ change in quality.  Or, for every $`r round(1/h3_model.coef[[9]], digits = 2)`$ units change in density, we can expect a 1 unit change in quality.
+<br>
 ```{r out.width = '40%'}
 wine %>% 
   ggplot(aes(x=wine$pH, y=wine$quality
@@ -351,7 +377,9 @@ wine %>%
   ylab("quality")+
   theme_bw() 
 ```
-
+<br>
+When we look at pH, we see a slope of $`r round(h3_model.coef[[10]], digits = 2)`$.  This means for every 1 unit change of pH, we can expect to see a $`r round(h3_model.coef[[10]], digits = 2)`$ change in quality.  Or, for every $`r round(1/h3_model.coef[[10]], digits = 2)`$ units change in pH, we can expect a 1 unit change in quality.
+<br>
 ```{r out.width = '40%'}
 wine %>% 
   ggplot(aes(x=wine$sulphates, y=wine$quality
@@ -362,7 +390,9 @@ wine %>%
   ylab("quality")+
   theme_bw() 
 ```
-
+<br>
+When we look at sulphates, we see a slope of $`r round(h3_model.coef[[11]], digits = 2)`$.  This means for every 1 unit change of sulphates, we can expect to see a $`r round(h3_model.coef[[11]], digits = 2)`$ change in quality.  Or, for every $`r round(1/h3_model.coef[[11]], digits = 2)`$ units change in sulphates, we can expect a 1 unit change in quality.
+<br>
 ```{r out.width = '40%'}
 wine %>% 
   ggplot(aes(x=wine$alcohol, y=wine$quality
@@ -373,6 +403,9 @@ wine %>%
   ylab("quality")+
   theme_bw() 
 ```
+<br>
+When we look at alcohol, we see a slope of $`r round(h3_model.coef[[12]], digits = 2)`$.  This means for every 1 unit change of alcohol, we can expect to see a $`r round(h3_model.coef[[12]], digits = 2)`$ change in quality.  Or, for every $`r round(1/h3_model.coef[[12]], digits = 2)`$ units change in alcohol, we can expect a 1 unit change in quality.
+<br>
 Winemakers use citric acid to sterilize equipment between batches, and it is found in fruitier wines.  However, citric acid can contribute to volatile acidity which leads to wine spoilage. Even though citric acid is not a significant predictor of quality, we want to see if there is an interaction between citric acid and volatile acidity.There is sufficient evidence to suggest that there is an interaction between citric acid and volatile acidity because $`r p.value.string(wine_red_table[[1]][["Pr(>F)"]][3])`$.
 
 Knowing that all the physiochemical properties except for citric acid or chlorides these are all significant predictors of quality and that white wine has the higher quality, the last research question was to see how the physiochemical composition differs between white and red wines. There is sufficient evidence to suggest that white wine has less fixed acidity ($`r p.value.string(compare1$p.value[1])`$), less volatile acidity (spoilage) ($`r p.value.string(compare2$p.value[1])`$), more residual sugar ($`r p.value.string(compare3$p.value[1])`$), greater free sulfur dioxide ($`r p.value.string(compare4$p.value[1])`$), greater total sulfur dioxide ($`r p.value.string(compare5$p.value[1])`$), less dense ($`r p.value.string(compare6$p.value[1])`$), lower pH ($`r p.value.string(compare7$p.value[1])`$), fewer sulphates ($`r p.value.string(compare8$p.value[1])`$), and more alcohol ($`r p.value.string(compare9$p.value[1])`$).
